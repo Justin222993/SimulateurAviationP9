@@ -33,5 +33,6 @@ Avant de commencer, assurez-vous d'avoir installé :
 * `MenuPrincipale` : Gestion de l'interface et du premier contact utilisateur.
 * `Transitions` : Classe statique pour les effets visuels de fondu.
 * `GestionnaireScenes` : Orchestrateur du changement de scènes.
-* `Simulation` : Scène future ou on va avoir la code pour la simulation
+* `Simulation` : Scène de simulation ou on peut voir les instruments.
+* `indicateurComponent` : Il y a des instruments/indicateurs définits dans la simulation, ceci est une classe pour pouvoir facilement rajouter une aiguille/image pour indiquer d'autre information et pouvoir facilement changer sa position/rotation/point de rotation de l'image
 * `SimulateurAviationP9` : Main, run l'app et load la première scène dans la liste dicté pas `GestionnaireScenes`
