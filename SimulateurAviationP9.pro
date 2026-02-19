@@ -8,9 +8,11 @@ SOURCES += SimulateurAviationP9.cpp \
 		   menuPrincipale.cpp \
 		   simulation.cpp \
 		   gestionnaireScenes.cpp \
-		   transitions.cpp
+		   transitions.cpp \
+		   indicateurComponent.cpp
 
 HEADERS += menuPrincipale.h \
 		   simulation.h \
 		   gestionnaireScenes.h \
-		   transitions.h
+		   transitions.h \
+		   indicateurComponent.h

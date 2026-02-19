@@ -52,6 +52,11 @@ void MenuPrincipale::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
 
+    QSize size = event->size();
+
+    int screenW = size.width();
+    int screenH = size.height();
+
     // Update du background
     for (auto child : children()) {
         QLabel* lbl = qobject_cast<QLabel*>(child);
@@ -60,29 +65,37 @@ void MenuPrincipale::resizeEvent(QResizeEvent* event)
         }
     }
 
+
     // Boutons
+    int sizeScaling = screenW / 30;
+
+    QFont f = font();
+    f.setPointSize(12 + (sizeScaling/20));
+
     // Bouton Commencer
     if (boutonCommencer) {
-        int btnW = 250;
-        int btnH = 50;
+        int btnW = 250 + sizeScaling;
+        int btnH = 50 + sizeScaling;
 
         // Position - milieu-droit a 80% du haut
-        int x = (this->width() - btnW) / 2 + 150;
+        int x = (this->width() - btnW + sizeScaling) / 2 + 150;
         int y = this->height() * 0.8;
 
         boutonCommencer->setGeometry(x, y, btnW, btnH);
+        boutonCommencer->setFont(f);
     }
 
     // Bouton Quitter
     if (boutonQuitter) {
-        int btnW = 250;
-        int btnH = 50;
+        int btnW = 250 + sizeScaling;
+        int btnH = 50 + sizeScaling;
 
         // Position - milieu-gauche a 80% du haut
-        int x = (this->width() - btnW) / 2 - 150;
+        int x = (this->width() - btnW - sizeScaling) / 2 - 150;
         int y = this->height() * 0.8;
 
         boutonQuitter->setGeometry(x, y, btnW, btnH);
+        boutonQuitter->setFont(f);
     }
 
     // Titre
@@ -112,7 +125,6 @@ QPushButton* MenuPrincipale::creerBouton(std::string message) {
         "   border-radius: 2px;"
         "   padding: 10px;"
         "   font-family: 'Consolas', monospace;"
-        "   font-size: 16px;"
         "   letter-spacing: 2px;"
         "}"
 

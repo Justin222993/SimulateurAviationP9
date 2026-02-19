@@ -5,8 +5,14 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent) : QStackedWidget(parent)
     // Background noir derrière les images
     this->setStyleSheet("background-color: black;");
 
-    // Taille de la window
+    // taille de base en pixels
     this->resize(800, 600);
+
+    // Taille minimale
+    this->setMinimumSize(800, 600);
+
+    // On garde les boutons standards (réduire, agrandir/plein écran, fermer)
+    this->setWindowFlags(Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint);
 
     // Initialisation des scènes
     m_menu = new MenuPrincipale();

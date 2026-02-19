@@ -33,6 +33,9 @@
     <ClCompile Include="gestionnaireScenes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="indicateurComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="menuPrincipale.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="gestionnaireScenes.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="indicateurComponent.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="menuPrincipale.h">

@@ -178,12 +178,14 @@
   <ItemGroup>
     <ClCompile Include="SimulateurAviationP9.cpp" />
     <ClCompile Include="gestionnaireScenes.cpp" />
+    <ClCompile Include="indicateurComponent.cpp" />
     <ClCompile Include="menuPrincipale.cpp" />
     <ClCompile Include="simulation.cpp" />
     <ClCompile Include="transitions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="gestionnaireScenes.h" />
+    <QtMoc Include="indicateurComponent.h" />
     <QtMoc Include="menuPrincipale.h" />
     <QtMoc Include="simulation.h" />
     <ClInclude Include="transitions.h" />
