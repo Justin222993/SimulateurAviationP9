@@ -37,6 +37,16 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
     // 
     // Utilisation des noms de l'enum du header (Ex: Anemometre, Altimetre...)
 
+    // IndicateurComponent prend 4 ou 6 arguments: 
+    // 1: this 
+    // 2: Image qu'on veut 
+    // 3: Scale de l'image (1.0f = normale)
+    // 4: Point de rotation de l'image ( 2.0f étant le milieu de l'image, 1.5f on dessend dans le bas de l'image, 2.5f on monte dans l'image)
+    // (5-6) OPTIONEL: - Si on ne les définits pas, default = (0,0), ou milieu de l'instrument. Il faut le définir si on veux que l'image commence a une certaine position.
+    // On veut le définir si on veut commencer a un endroit, même si la modification setPosition change la position, elle lerp, donc sa va prendre du temps pour qu'elle ce place, donc on set la position initale aussi.
+    // 5: Position initiale en pixel x 
+    // 6: Position initiale en pixel y
+
     // Anemometre
         // aiguille
     listeIndicateurs[Anemometre].append(new IndicateurComponent(this, "ressources/simulateur/aiguille.png", 0.6f, 1.5f));
