@@ -11,7 +11,7 @@ IndicateurComponent::IndicateurComponent(QWidget* parent, const QString& cheminI
     , xCible(xActuel)
     , yActuel(yActuel)
     , yCible(yActuel)
-    , vitesseLerp(0.01)
+    , vitesseLerp(0.03)
 {
     pixmap = QPixmap(cheminImage);
     setAttribute(Qt::WA_TranslucentBackground);

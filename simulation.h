@@ -8,9 +8,12 @@
 #include <QTimer>
 #include <QDebug>
 #include <QRandomGenerator>
+#include <iostream>
+#include <thread>
+#include <conio.h>
+#include <iomanip>
 #include "indicateurComponent.h"
-
-class Aiguille;
+#include "avion.h"
 
 class Simulation : public QWidget {
     Q_OBJECT
@@ -37,6 +40,7 @@ public:
     explicit Simulation(QWidget* parent = nullptr);
     void setAngleInstrument(int indexInstrument, int indexIndicateur, double angle);
     void setPosition(int indexInstrument, int indexIndicateur, double positionX, double positionY);
+    void demarrer();
 
 protected:
     void resizeEvent(QResizeEvent* event) override;
@@ -45,6 +49,13 @@ private:
     QLabel* fondDashboard;
     QLabel* instruments[NB_INSTRUMENTS];
     QList<IndicateurComponent*> listeIndicateurs[NB_INSTRUMENTS];
+    void inputListener(Avion& p);
+    Avion p;
+    QTimer* timerAnimation;
+    QTimer* timerDonnees;
+    void setupIndicateurs();
+    void messagesWarning();
+    void handleAnemometre();
 };
 
 #endif
