@@ -69,9 +69,9 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
 
         double horizonRandomAngle = QRandomGenerator::global()->bounded(-50, 51);
 
-        //setAngleInstrument(Horizon, 0, horizonRandomAngle);
-        //setPosition(Horizon, 0, QRandomGenerator::global()->bounded(-50, 51), QRandomGenerator::global()->bounded(-50, 51));
-        //setAngleInstrument(Horizon, 1, horizonRandomAngle);
+        setAngleInstrument(Horizon, 0, horizonRandomAngle);
+        setPosition(Horizon, 0, QRandomGenerator::global()->bounded(-50, 51), QRandomGenerator::global()->bounded(-50, 51));
+        setAngleInstrument(Horizon, 1, horizonRandomAngle);
         });
 }
 
@@ -116,13 +116,13 @@ void Simulation::demarrer() {
     timerDonnees->start(50); // Chaque 50 milliseconde, update console/donnees
 }
 
-struct PointVitesse {
-    double vitesse;
+struct PointValeur {
+    double valeur;
     double angle;
 };
 
 void Simulation::handleAnemometre() {
-    std::vector<PointVitesse> pointsReference = {
+    std::vector<PointValeur> pointsReference = {
         {0.0,   0.0},
         {40.0,  20.0},
         {60.0,  60.0},
@@ -138,18 +138,18 @@ void Simulation::handleAnemometre() {
     double finalAngle = 0.0;
 
     // Logique pour placer l'aiguille de vitesse parfaitement ou on veux
-    if (speed <= pointsReference.front().vitesse) {
+    if (speed <= pointsReference.front().valeur) {
         finalAngle = pointsReference.front().angle;
     }
-    else if (speed >= pointsReference.back().vitesse) {
+    else if (speed >= pointsReference.back().valeur) {
         finalAngle = pointsReference.back().angle;
     }
     else {
         // On cherche entre quels points on se trouve
         for (size_t i = 0; i < pointsReference.size() - 1; ++i) {
-            if (speed >= pointsReference[i].vitesse && speed <= pointsReference[i + 1].vitesse) {
-                double v1 = pointsReference[i].vitesse;
-                double v2 = pointsReference[i + 1].vitesse;
+            if (speed >= pointsReference[i].valeur && speed <= pointsReference[i + 1].valeur) {
+                double v1 = pointsReference[i].valeur;
+                double v2 = pointsReference[i + 1].valeur;
                 double a1 = pointsReference[i].angle;
                 double a2 = pointsReference[i + 1].angle;
 
