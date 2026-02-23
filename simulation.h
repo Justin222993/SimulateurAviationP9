@@ -55,6 +55,8 @@ private:
     QTimer* timerDonnees;
     void setupIndicateurs();
     void messagesWarning();
+    void messagesMorts();
+
     void handleAnemometre();
 };
 

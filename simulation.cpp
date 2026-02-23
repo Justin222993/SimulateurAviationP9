@@ -25,6 +25,7 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
     // TIMER : Mise à jour des données (TEMPORAIRE, POUR TESTER LES IMAGES, DONNE DES VALEURS RANDOMS A CHAQUE SECONDES)
     timerDonnees = new QTimer(this);
     connect(timerDonnees, &QTimer::timeout, this, [this]() {
+        p.calculateNewPosition();
 
         std::cout << "\033[H\033[J";
 
@@ -38,9 +39,8 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
             << "Roll: " << std::setw(7) << p.getRoll()
             << "Fuel: " << std::setw(7) << p.getFuel() << "\n";
 
-        p.calculateNewPosition();
-
         messagesWarning();
+        messagesMorts();
 
         std::cout << std::flush;
 
@@ -57,40 +57,42 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
 
         handleAnemometre();
 
-        setAngleInstrument(Altimetre, 0, QRandomGenerator::global()->bounded(-360, 361));
-        setAngleInstrument(Altimetre, 1, QRandomGenerator::global()->bounded(-360, 361));
+        //setAngleInstrument(Altimetre, 0, QRandomGenerator::global()->bounded(-360, 361));
+        //setAngleInstrument(Altimetre, 1, QRandomGenerator::global()->bounded(-360, 361));
 
-        setAngleInstrument(Variometre, 0, QRandomGenerator::global()->bounded(-360, 361));
+        //setAngleInstrument(Variometre, 0, QRandomGenerator::global()->bounded(-360, 361));
 
         setAngleInstrument(Cap, 0, -p.getYaw());
 
         setAngleInstrument(Virage, 0, p.getRoll());
-        setPosition(Virage, 1, QRandomGenerator::global()->bounded(-50, 51), -103.5);
+        //setPosition(Virage, 1, QRandomGenerator::global()->bounded(-50, 51), -103.5);
 
         double horizonRandomAngle = QRandomGenerator::global()->bounded(-50, 51);
 
-        setAngleInstrument(Horizon, 0, horizonRandomAngle);
-        setPosition(Horizon, 0, QRandomGenerator::global()->bounded(-50, 51), QRandomGenerator::global()->bounded(-50, 51));
-        setAngleInstrument(Horizon, 1, horizonRandomAngle);
+        //setAngleInstrument(Horizon, 0, horizonRandomAngle);
+        //setPosition(Horizon, 0, QRandomGenerator::global()->bounded(-50, 51), QRandomGenerator::global()->bounded(-50, 51));
+        //setAngleInstrument(Horizon, 1, horizonRandomAngle);
         });
 }
 
 void Simulation::messagesWarning() {
-    if (p.getAltitude() < 1000) {
+    if (p.getAltitude() <= 1000) {
         std::cout << "| ALTITTUDE CRITICALLY LOW | -> Should be over 1000\n";
     }
 
-    if (p.getAltitude() <= 0) {
-        std::cout << "| CRASH | -> Hit the ground\n";
-        timerDonnees->stop();
-    }
-
-    if (p.getSpeed() < 10) {
+    if (p.getSpeed() <= 10) {
         std::cout << "| SPEED CRITICALLY LOW | -> Should be over 10\n";
     }
 
-    if (p.getFuel() < 50) {
+    if (p.getFuel() <= 50) {
         std::cout << "| FUEL CRITICALLY LOW | -> Should be over 50\n";
+    }
+}
+
+void Simulation::messagesMorts() {
+    if (p.getAltitude() <= 0) {
+        std::cout << "| CRASH | -> Hit the ground\n";
+        timerDonnees->stop();
     }
 }
 

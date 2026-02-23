@@ -79,19 +79,7 @@ void Avion::calculateNewPosition() {
             speed = 0;
         }
 
-        altitude -= (9.8/2);
-        if (altitude <= 0) {
-            altitude = 0;
-        }
-
         return;
-    }
-
-    if (speed <= 0) {
-        altitude -= (9.8 / 2);
-        if (altitude <= 0) {
-            altitude = 0;
-        }
     }
 
     double actualCalculationSpeed = speed / 10;
@@ -110,6 +98,15 @@ void Avion::calculateNewPosition() {
 
     // altitude
     altitude += actualCalculationSpeed * std::sin(radPitch) * std::cos(radRoll);
+
+    // Si la vitesse est trop basse on tombe
+    if (speed <= 10) {
+        altitude -= (9.8 / 2);
+    }
+
+    if (altitude <= 0) {
+        altitude = 0;
+    }
 
     // Pour garder les valeurs en angle lisible
     if (yaw >= 360.0) yaw -= 360.0;
