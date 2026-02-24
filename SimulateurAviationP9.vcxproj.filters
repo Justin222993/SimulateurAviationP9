@@ -45,6 +45,9 @@
     <ClCompile Include="transitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="avion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="gestionnaireScenes.h">
@@ -70,5 +73,10 @@
     <CustomBuild Include="release\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="avion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

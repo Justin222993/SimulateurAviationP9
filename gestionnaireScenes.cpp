@@ -34,6 +34,7 @@ void GestionnaireScenes::afficherMenu()
 void GestionnaireScenes::afficherSimulation()
 {
     this->setCurrentWidget(m_simulation);
+    m_simulation->demarrer();
 }
 
 // Pour changer de scène:
