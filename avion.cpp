@@ -107,16 +107,6 @@ void Avion::calculateNewPosition() {
     if (altitude <= 0) {
         altitude = 0;
     }
-
-    // Pour garder les valeurs en angle lisible
-    if (yaw >= 360.0) yaw -= 360.0;
-    if (yaw < 0.0) yaw += 360.0;
-
-    if (roll > 180.0) roll -= 360.0;
-    if (roll < -180.0) roll += 360.0;
-
-    if (pitch > 180.0) pitch -= 360.0;
-    if (pitch < -180.0) pitch += 360.0;
 }
 
 

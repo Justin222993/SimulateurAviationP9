@@ -1,4 +1,5 @@
 #include "simulation.h"
+#include <QQuickItem>
 
 Simulation::Simulation(QWidget* parent) : QWidget(parent) {
     this->setStyleSheet("background-color: black;");
@@ -12,6 +13,16 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
     // C'est ici que je le cache
     fondDashboard->hide();
 
+    // Scene 3d ??? :)
+    view3d = new QQuickWidget(this);
+    view3d->setSource(QUrl::fromLocalFile("scene3D.qml"));
+    view3d->setResizeMode(QQuickWidget::SizeRootObjectToView);
+
+    // Important pour voir les instruments 2D par-dessus
+    view3d->setAttribute(Qt::WA_AlwaysStackOnTop, false);
+    view3d->lower();
+    view3d->show();
+
     setupIndicateurs();
 
     // TIMER : Fluidité visuelle
@@ -22,10 +33,26 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
         }
     });
 
-    // TIMER : Mise à jour des données (TEMPORAIRE, POUR TESTER LES IMAGES, DONNE DES VALEURS RANDOMS A CHAQUE SECONDES)
+    // TIMER : Mise à jour des données (LES RANDOMS SONT TEMPORAIRES)
     timerDonnees = new QTimer(this);
     connect(timerDonnees, &QTimer::timeout, this, [this]() {
         p.calculateNewPosition();
+
+        if (view3d && view3d->rootObject()) {
+            QVariantMap data;
+            data["x"] = (double)p.getPositionX();
+            data["y"] = (double)p.getPositionY();
+            data["altitude"] = (double)p.getAltitude();
+            data["pitch"] = (double)p.getPitch();
+            data["yaw"] = (double)p.getYaw();
+            data["roll"] = (double)p.getRoll();
+
+            // On force le compilateur à voir rootObject comme un QObject*
+            QMetaObject::invokeMethod(static_cast<QObject*>(view3d->rootObject()),
+                "updateCamera",
+                Qt::AutoConnection,
+                Q_ARG(QVariant, QVariant::fromValue(data)));
+        }
 
         std::cout << "\033[H\033[J";
 
@@ -34,15 +61,15 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
             << "Alt: " << std::setw(10) << p.getAltitude()
             << "X: " << std::setw(10) << p.getPositionX()
             << "Y: " << std::setw(10) << p.getPositionY()
-            << "Pitch: " << std::setw(7) << p.getPitch()
-            << "Yaw: " << std::setw(7) << p.getYaw()
-            << "Roll: " << std::setw(7) << p.getRoll()
+            << "Pitch: " << std::setw(7) << std::fmod(p.getPitch(), 360.0)
+            << "Yaw: " << std::setw(7) << std::fmod(p.getYaw(), 360.0)
+            << "Roll: " << std::setw(7) << std::fmod(p.getRoll(), 360.0)
             << "Fuel: " << std::setw(7) << p.getFuel() << "\n";
 
         messagesWarning();
         messagesMorts();
 
-        std::cout << std::flush;
+        
 
         // setAngleInstrument: Demande 3 éléments, 
         // 1: Enum de l'instrument (ex: Anemometre)
@@ -99,11 +126,11 @@ void Simulation::messagesMorts() {
 void Simulation::demarrer() {
     // création de l'avion
     double initialSpeed = 40.0;
-    double initialAlt = 5000.0;
+    double initialAlt = 3000.0;
     double startX = 0.0;
     double startY = 0.0;
-    double initialPitch = 5.0;
-    double initialYaw = 0.0;
+    double initialPitch = 0.0;
+    double initialYaw = 30.0;
     double initialRoll = 0.0;
     double inititalFuel = 1000;
 
@@ -113,7 +140,7 @@ void Simulation::demarrer() {
     t.detach();
 
     timerAnimation->start(16); // Change la valeur du timer pour changer la fluidité
-    timerDonnees->start(50); // Chaque 50 milliseconde, update console/donnees
+    timerDonnees->start(25); // Chaque 50 milliseconde, update console/donnees (Changé a 25 pour 3D)
 }
 
 struct PointValeur {
@@ -185,16 +212,16 @@ void Simulation::inputListener(Avion& p) {
         if (_kbhit()) { // _kbhit() checks if a key was pressed sans arrêter le loop
             char input = _getch(); // Gets the character immediately
             if (input == 'w') {
-                p.upPitch(5);
+                p.upPitch(2);
             }
             else if (input == 's') {
-                p.downPitch(5);
+                p.downPitch(2);
             }
             else if (input == 'a') {
-                p.rollLeft(5);
+                p.rollLeft(3);
             }
             else if (input == 'd') {
-                p.rollRight(5);
+                p.rollRight(3);
             }
             else if (input == 'p') {
                 if (!p.upSpeed(5)) {
@@ -236,6 +263,11 @@ void Simulation::resizeEvent(QResizeEvent* event) {
             a->setGeometry(zone);
             a->raise();
         }
+    }
+
+    // scène 3D
+    if (view3d) {
+        view3d->setGeometry(0, 0, this->width(), this->height());
     }
 }
 

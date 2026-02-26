@@ -50,6 +50,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="avion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <QtMoc Include="gestionnaireScenes.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -75,8 +78,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="avion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="SimulateurAviationP9.pro" />
+    <None Include="scene3D.qml" />
   </ItemGroup>
 </Project>
