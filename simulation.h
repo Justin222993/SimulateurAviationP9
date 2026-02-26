@@ -12,6 +12,8 @@
 #include <thread>
 #include <conio.h>
 #include <iomanip>
+#include <QQuickWidget>
+#include <QMetaObject>
 #include "indicateurComponent.h"
 #include "avion.h"
 
@@ -58,6 +60,9 @@ private:
     void messagesMorts();
 
     void handleAnemometre();
+
+    // 3D
+    QQuickWidget* view3d;
 };
 
 #endif
