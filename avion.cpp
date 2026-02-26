@@ -33,8 +33,8 @@ bool Avion::upSpeed(double additive) {
     if (fuel != 0) {
         speed += additive;
 
-        if (speed > 600) {
-            speed = 600;
+        if (speed > 200) {
+            speed = 200;
         }
         return true;
     }
