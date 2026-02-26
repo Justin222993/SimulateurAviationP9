@@ -83,6 +83,8 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
         // 4: la nouvelle position y
 
         handleAnemometre();
+        handleTachymetreConsole();
+        handleBoussoleConsole();
 
         //setAngleInstrument(Altimetre, 0, QRandomGenerator::global()->bounded(-360, 361));
         //setAngleInstrument(Altimetre, 1, QRandomGenerator::global()->bounded(-360, 361));
@@ -189,6 +191,32 @@ void Simulation::handleAnemometre() {
     }
 
     setAngleInstrument(Anemometre, 0, finalAngle);
+}
+
+void Simulation::handleTachymetreConsole() {
+    double speed = p.getSpeed();
+    if (speed < 0) speed = 0;
+    if (speed > 200) speed = 200;
+
+    double rpm = (speed / 200.0) * 2500.0;
+
+    std::cout << "[Tachymetre] Speed=" << std::fixed << std::setprecision(2) << speed
+        << " -> RPM=" << std::setprecision(0) << rpm << "\n";
+}
+
+void Simulation::handleBoussoleConsole() {
+    double cap = p.getYaw();
+
+    while (cap >= 360.0) cap -= 360.0;
+    while (cap < 0.0) cap += 360.0;
+
+    const char* lettre = "N";
+    if (cap >= 45 && cap < 135) lettre = "E";
+    else if (cap >= 135 && cap < 225) lettre = "S";
+    else if (cap >= 225 && cap < 315) lettre = "W";
+
+    std::cout << "[Boussole] Cap=" << std::fixed << std::setprecision(2) << cap
+        << " deg (" << lettre << ")\n";
 }
 
 void Simulation::setAngleInstrument(int indexInstrument, int indexIndicateur, double angle) {
