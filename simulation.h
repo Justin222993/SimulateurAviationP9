@@ -58,6 +58,8 @@ private:
     void messagesMorts();
 
     void handleAnemometre();
+    void handleTachymetreConsole();
+    void handleBoussoleConsole();
 };
 
 #endif
