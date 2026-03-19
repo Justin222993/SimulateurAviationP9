@@ -27,7 +27,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SerialConnectionGateway.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SerialManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\serial\SerialPort.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SimulateurAviationP9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="avion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gestionnaireScenes.cpp">
@@ -45,11 +57,17 @@
     <ClCompile Include="transitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="avion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SerialConnectionGateway.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SerialManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\serial\SerialPort.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="avion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -59,6 +77,9 @@
     <QtMoc Include="indicateurComponent.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <ClInclude Include="include\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <QtMoc Include="menuPrincipale.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -76,9 +97,5 @@
     <CustomBuild Include="release\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SimulateurAviationP9.pro" />
-    <None Include="scene3D.qml" />
   </ItemGroup>
 </Project>

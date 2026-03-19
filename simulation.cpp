@@ -64,7 +64,17 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
             << "Pitch: " << std::setw(7) << std::fmod(p.getPitch(), 360.0)
             << "Yaw: " << std::setw(7) << std::fmod(p.getYaw(), 360.0)
             << "Roll: " << std::setw(7) << std::fmod(p.getRoll(), 360.0)
-            << "Fuel: " << std::setw(7) << p.getFuel() << "\n";
+            << "Fuel: " << std::setw(7) << p.getFuel() 
+			<< "\n------------ Arduino -----------\n"
+            << "Connected:" << std::setw(2)<<(serialManager->ArduinoIsConnected()?"True":"False")
+			<< "Joystick X: " << std::setw(7) << serialManager->GetJoystick().curlX
+			<< "Joystick Y: " << std::setw(7) << serialManager->GetJoystick().curlY
+			<< "Potentiometer: " << std::setw(7) << serialManager->GetPotentiometer()
+			<< "Master Switch: " << std::setw(7) << (serialManager->GetMasterSwitch() ? "ON" : "OFF")
+			<< "Encoder: " << std::setw(7) << serialManager->GetEncoder()
+			<< "Accel Bump: " << std::setw(7) << (serialManager->GetAccelBump() ? "YES" : "NO")
+
+            << "\n";
 
         messagesWarning();
         messagesMorts();
@@ -135,11 +145,14 @@ void Simulation::demarrer() {
     double initialYaw = 30.0;
     double initialRoll = 0.0;
     double inititalFuel = 1000;
+	serialManager = &SerialManager::GetInstance();
 
     p = Avion(initialSpeed, initialAlt, startX, startY, initialPitch, initialYaw, initialRoll, inititalFuel);
 
     std::thread t(&Simulation::inputListener, this, std::ref(p));
+	std::thread t2(&Simulation::inputArduinoHandler, this, std::ref(p));
     t.detach();
+	t2.detach();
 
     timerAnimation->start(16); // Change la valeur du timer pour changer la fluidité
     timerDonnees->start(25); // Chaque 50 milliseconde, update console/donnees (Changé a 25 pour 3D)
@@ -237,9 +250,11 @@ void Simulation::setPosition(int indexInstrument, int indexIndicateur, double po
 
 void Simulation::inputListener(Avion& p) {
     while (true) {
+		
         if (_kbhit()) { // _kbhit() checks if a key was pressed sans arrêter le loop
             char input = _getch(); // Gets the character immediately
             if (input == 'w') {
+                std::cout << "W PRESSED" << std::endl;
                 p.upPitch(2);
             }
             else if (input == 's') {
@@ -259,6 +274,42 @@ void Simulation::inputListener(Avion& p) {
             else if (input == 'l') {
                 p.downSpeed(5);
             }
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+}
+void Simulation::inputArduinoHandler(Avion& p) {
+    while (true) {
+        if(!serialManager->ArduinoIsConnected()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+			continue;
+		}
+		serialManager->SetReturnData(p.getSpeed(), p.getAltitude(), true);
+		serialManager->DoNetworkTick();
+        p.setSpeed((serialManager->GetPotentiometer() / 1023.0) * 200.0);
+
+		JoystickInformation joyInfo = serialManager->GetJoystick();
+        if(joyInfo.curlY > 512) {
+            float curl = ((joyInfo.curlY - 512) / 512.0) * 2;
+            if(curl>0.1)
+                p.upPitch(curl);
+        }
+        else if(joyInfo.curlY < 512) {
+            float curl = ((joyInfo.curlY) / 512.0) * 2;
+            if (curl > 0.1)
+                p.downPitch(curl);
+		}
+
+        if (joyInfo.curlX > 512) {
+            float curl = ((joyInfo.curlX - 512) / 512.0) * 3;
+            if (curl > 0.1)
+                p.rollRight(3);
+        }
+        else if (joyInfo.curlX < 512) {
+            float curl = ((joyInfo.curlX) / 512.0) * 3;
+            if (curl > 0.1)
+                p.rollLeft(curl);
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(10));

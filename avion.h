@@ -9,6 +9,7 @@ class Avion {
 		~Avion();
 
 		// Actions
+		void setSpeed(int newSpeed);
 		bool upSpeed(double additive);
 		void downSpeed(double additive);
 
