@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6D83F4E3-DFA8-3D87-B81E-07D5A8BCFF08}</ProjectGuid>
+    <ProjectGuid>{831B49E8-B503-3081-9470-281202342852}</ProjectGuid>
     <RootNamespace>SimulateurAviationP9</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
@@ -40,11 +40,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(QtMsBuild)\qt_defaults.props" Condition="Exists('$(QtMsBuild)\qt_defaults.props')" />
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtInstall>Qt</QtInstall>
+    <QtInstall>6.10.2_msvc2022_64</QtInstall>
     <QtModules>core;gui;network;qml;quick;widgets;concurrent;opengl;quickwidgets;quick3d;shadertools</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <QtInstall>Qt</QtInstall>
+    <QtInstall>6.10.2_msvc2022_64</QtInstall>
     <QtModules>core;gui;network;qml;quick;widgets;concurrent;opengl;quickwidgets;quick3d;shadertools</QtModules>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') OR !Exists('$(QtMsBuild)\Qt.props')">
@@ -73,7 +73,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;release;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;include;include\serial;release;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -utf-8 -w34100 -w34189 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -127,7 +127,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;include;include\serial;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -utf-8 -w34100 -w34189 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -176,6 +176,9 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SerialConnectionGateway.cpp" />
+    <ClCompile Include="SerialManager.cpp" />
+    <ClCompile Include="include\serial\SerialPort.cpp" />
     <ClCompile Include="SimulateurAviationP9.cpp" />
     <ClCompile Include="avion.cpp" />
     <ClCompile Include="gestionnaireScenes.cpp" />
@@ -185,9 +188,13 @@
     <ClCompile Include="transitions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SerialConnectionGateway.h" />
+    <ClInclude Include="SerialManager.h" />
+    <ClInclude Include="include\serial\SerialPort.hpp" />
     <ClInclude Include="avion.h" />
     <QtMoc Include="gestionnaireScenes.h" />
     <QtMoc Include="indicateurComponent.h" />
+    <ClInclude Include="include\json.hpp" />
     <QtMoc Include="menuPrincipale.h" />
     <QtMoc Include="simulation.h" />
     <ClInclude Include="transitions.h" />
