@@ -63,6 +63,9 @@ private:
     void handleAnemometre();
     void handleTachymetre();
     void handleBoussole();
+
+    // 3D
+    QQuickWidget* view3d;
 };
 
 #endif
