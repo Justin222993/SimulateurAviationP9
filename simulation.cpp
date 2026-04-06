@@ -82,8 +82,8 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
         // 4: la nouvelle position y
 
         handleAnemometre();
-        handleTachymetreConsole();
-        handleBoussoleConsole();
+        handleTachymetre();
+        handleBoussole();
 
         //setAngleInstrument(Altimetre, 0, QRandomGenerator::global()->bounded(-360, 361));
         //setAngleInstrument(Altimetre, 1, QRandomGenerator::global()->bounded(-360, 361));
@@ -192,30 +192,83 @@ void Simulation::handleAnemometre() {
     setAngleInstrument(Anemometre, 0, finalAngle);
 }
 
-void Simulation::handleTachymetreConsole() {
+void Simulation::handleTachymetre() {
     double speed = p.getSpeed();
-    if (speed < 0) speed = 0;
+    if (speed < 0)   speed = 0;
     if (speed > 200) speed = 200;
 
-    double rpm = (speed / 200.0) * 2500.0;
+    // Même formule que ton ancienne fonction console
+    double rpm = (speed / 200.0) * 3500.0;
 
-    std::cout << "[Tachymetre] Speed=" << std::fixed << std::setprecision(2) << speed
-        << " -> RPM=" << std::setprecision(0) << rpm << "\n";
+    // Points de référence RPM ? angle aiguille
+    // Même logique que handleAnemometre()
+    // START: -225° from top, SWEEP: 270°, MAX: 3500 RPM
+    std::vector<PointValeur> pointsReference = {
+        {0.0,    -225.0},
+        {500.0,  -186.4},
+        {1000.0, -147.9},
+        {1500.0, -109.3},
+        {2000.0,  -70.7},
+        {2500.0,  -32.1},
+        {3000.0,    6.4},
+        {3500.0,   45.0}
+    };
+
+    double finalAngle = 0.0;
+
+    if (rpm <= pointsReference.front().valeur) {
+        finalAngle = pointsReference.front().angle;
+    }
+    else if (rpm >= pointsReference.back().valeur) {
+        finalAngle = pointsReference.back().angle;
+    }
+    else {
+        for (size_t i = 0; i < pointsReference.size() - 1; ++i) {
+            if (rpm >= pointsReference[i].valeur && rpm <= pointsReference[i + 1].valeur) {
+                double v1 = pointsReference[i].valeur;
+                double v2 = pointsReference[i + 1].valeur;
+                double a1 = pointsReference[i].angle;
+                double a2 = pointsReference[i + 1].angle;
+                double ratio = (rpm - v1) / (v2 - v1);
+                finalAngle = a1 + ratio * (a2 - a1);
+                break;
+            }
+        }
+    }
+
+    setAngleInstrument(Tachymetre, 0, finalAngle);
+
+    std::cout << "[Tachymetre] Speed=" << std::fixed << std::setprecision(2)
+        << speed << " -> RPM=" << std::setprecision(0) << rpm << "\n";
 }
 
-void Simulation::handleBoussoleConsole() {
+void Simulation::handleBoussole() {
     double cap = p.getYaw();
 
+    // Normalise entre 0 et 360
     while (cap >= 360.0) cap -= 360.0;
-    while (cap < 0.0) cap += 360.0;
+    while (cap < 0.0)    cap += 360.0;
 
+    // Le ruban fait 1800px de large pour 2 rotations complètes (720°)
+    // donc 2.5px par degré. On translate négativement pour que le cap
+    // courant soit centré sous la ligne de foi (lubber line).
+    // On utilise modulo 900 pour rester dans la première répétition
+    // et éviter que le ruban sorte de ses bornes.
+    double pxParDegre = 2.5;
+    double offsetX = -(cap * pxParDegre);
+
+    // setPosition prend x et y en pixels depuis le centre de l'instrument.
+    // Le ruban (echelle 1.0f, pivot 2.0f) est centré sur le widget.
+    // On déplace uniquement en X.
+    setPosition(Boussole, 0, offsetX, 0);
+
+    // Debug console (optionnel, tu peux enlever)
     const char* lettre = "N";
     if (cap >= 45 && cap < 135) lettre = "E";
     else if (cap >= 135 && cap < 225) lettre = "S";
     else if (cap >= 225 && cap < 315) lettre = "W";
-
-    std::cout << "[Boussole] Cap=" << std::fixed << std::setprecision(2) << cap
-        << " deg (" << lettre << ")\n";
+    std::cout << "[Boussole] Cap=" << std::fixed << std::setprecision(2)
+        << cap << " deg (" << lettre << ")\n";
 }
 
 void Simulation::setAngleInstrument(int indexInstrument, int indexIndicateur, double angle) {
@@ -365,4 +418,36 @@ void Simulation::setupIndicateurs() {
     listeIndicateurs[Horizon].append(new IndicateurComponent(this, "ressources/simulateur/horizon-artificiel-fleche-rouge.png", 1.0f, 1.3f));
     // Couche au dessus que j'ai mis pour chacher le overdraft du ciel/sol (Vu que c'est une géante image)
     listeIndicateurs[Horizon].append(new IndicateurComponent(this, "ressources/simulateur/horizon-artificiel.png", 1.0f, 2.0f));
+
+    // Tachymetre
+    listeIndicateurs[Tachymetre].append(
+        new IndicateurComponent(this, "ressources/simulateur/aiguille.png", 0.6f, 1.5f)
+    );
+
+    instruments[Boussole]->setPixmap(QPixmap("ressources/simulateur/boussole.png"));
+
+    // Ruban des points cardinaux - se déplace en X selon le cap
+    // echelle 1.0f pour qu'il remplisse bien la fenêtre du boîtier
+    // pivotRatio 2.0f = centré (point de rotation au milieu de l'image)
+    listeIndicateurs[Boussole].append(
+        new IndicateurComponent(
+            this,
+            "ressources/simulateur/ruban-points-cardinaux.png",
+            1.0f,   // echelle
+            2.0f,   // pivotRatio centré
+            0, 0    // position initiale centrée
+        )
+    );
+
+    // Boîtier par-dessus le ruban (fenêtre transparente)
+    // echelle 1.05f pour couvrir les bords du clip circulaire
+    listeIndicateurs[Boussole].append(
+        new IndicateurComponent(
+            this,
+            "ressources/simulateur/boussole.png",
+            1.05f,  // echelle légèrement plus grand pour couvrir le cercle
+            2.0f,   // pivotRatio centré
+            0, 0
+        )
+    );
 }

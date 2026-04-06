@@ -61,11 +61,8 @@ private:
     void messagesMorts();
 
     void handleAnemometre();
-    void handleTachymetreConsole();
-    void handleBoussoleConsole();
-
-    // 3D
-    QQuickWidget* view3d;
+    void handleTachymetre();
+    void handleBoussole();
 };
 
 #endif
