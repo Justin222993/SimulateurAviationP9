@@ -1,4 +1,4 @@
-QT       += core gui widgets quick quickwidgets quick3d
+QT       += core gui widgets quick quickwidgets quick3d quickcontrols2
 
 TARGET   = SimulateurAviationP9
 
@@ -10,11 +10,13 @@ SOURCES += SimulateurAviationP9.cpp \
 		   gestionnaireScenes.cpp \
 		   transitions.cpp \
 		   indicateurComponent.cpp \
-		   avion.cpp
+		   avion.cpp \
+		   simulationCockpit.cpp
 
 HEADERS += menuPrincipale.h \
 		   simulation.h \
 		   gestionnaireScenes.h \
 		   transitions.h \
 		   indicateurComponent.h \
-		   avion.h
+		   avion.h \
+		   simulationCockpit.h

@@ -20,14 +20,16 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 
 private:
-    QPushButton* boutonCommencer;
+    QPushButton* boutonCommencerVol;
+    QPushButton* boutonCommencerCockpit;
     QPushButton* boutonQuitter;
     QMovie* fondAnimation;
     QLabel* titre;
     QPushButton* creerBouton(std::string message);
 
 signals:
-    void demanderSimulation();
+    void demanderSimulationVol();
+    void demanderSimulationCockpit();
 };
 
 #endif

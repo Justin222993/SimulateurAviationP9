@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick3D
-import QtQuick3D.AssetUtils
 import "ressources/model3D"
 
 Item {
