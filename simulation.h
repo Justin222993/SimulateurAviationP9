@@ -14,6 +14,7 @@
 #include <iomanip>
 #include <QQuickWidget>
 #include <QMetaObject>
+#include <QQuickItem>
 #include "indicateurComponent.h"
 #include "avion.h"
 
@@ -39,7 +40,7 @@ public:
         "coordonateur-de-virage", "indicateur-de-cap", "variometre", "boussole"
     };
 
-    explicit Simulation(QWidget* parent = nullptr);
+    Simulation(QWidget* parent = nullptr);
     void setAngleInstrument(int indexInstrument, int indexIndicateur, double angle);
     void setPosition(int indexInstrument, int indexIndicateur, double positionX, double positionY);
     void demarrer();

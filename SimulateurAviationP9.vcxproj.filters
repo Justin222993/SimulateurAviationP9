@@ -30,6 +30,9 @@
     <ClCompile Include="SimulateurAviationP9.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="avion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="gestionnaireScenes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,10 +45,10 @@
     <ClCompile Include="simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="transitions.cpp">
+    <ClCompile Include="simulationCockpit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="avion.cpp">
+    <ClCompile Include="transitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,20 +68,12 @@
     <QtMoc Include="simulation.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="simulationCockpit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
     <ClInclude Include="transitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="debug\moc_predefs.h.cbt">
-      <Filter>Generated Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="release\moc_predefs.h.cbt">
-      <Filter>Generated Files</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SimulateurAviationP9.pro" />
-    <None Include="scene3D.qml" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

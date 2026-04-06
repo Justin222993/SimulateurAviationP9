@@ -1,5 +1,4 @@
 #include "simulation.h"
-#include <QQuickItem>
 
 Simulation::Simulation(QWidget* parent) : QWidget(parent) {
     this->setStyleSheet("background-color: black;");

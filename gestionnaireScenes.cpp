@@ -16,14 +16,17 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent) : QStackedWidget(parent)
 
     // Initialisation des scènes
     m_menu = new MenuPrincipale();
-    m_simulation = new Simulation();
+    m_simulationVol = new Simulation();
+    m_simulationCockpit = new SimulationCockpit();
 
     // Ajout à la pile
     this->addWidget(m_menu);
-    this->addWidget(m_simulation);
+    this->addWidget(m_simulationVol);
+    this->addWidget(m_simulationCockpit);
 
     // On écoute le signal du menu pour changer de scène
-    connect(m_menu, &MenuPrincipale::demanderSimulation, this, &GestionnaireScenes::afficherSimulation);
+    connect(m_menu, &MenuPrincipale::demanderSimulationVol, this, &GestionnaireScenes::afficherSimulationVol);
+    connect(m_menu, &MenuPrincipale::demanderSimulationCockpit, this, &GestionnaireScenes::afficherSimulationCockpit);
 }
 
 void GestionnaireScenes::afficherMenu()
@@ -31,17 +34,22 @@ void GestionnaireScenes::afficherMenu()
     this->setCurrentWidget(m_menu);
 }
 
-void GestionnaireScenes::afficherSimulation()
+void GestionnaireScenes::afficherSimulationVol()
 {
-    this->setCurrentWidget(m_simulation);
-    m_simulation->demarrer();
+    this->setCurrentWidget(m_simulationVol);
+    m_simulationVol->demarrer();
+}
+
+void GestionnaireScenes::afficherSimulationCockpit()
+{
+    this->setCurrentWidget(m_simulationCockpit);
 }
 
 // Pour changer de scène:
 
 // 1. Créer un bouton/action qui va trigger la scène
 
-// 2. Écoute pour l'appel d'une fonction, ex: connect(m_menu, &MenuPrincipale::demanderSimulation, this, &GestionnaireScenes::afficherSimulation);
+// 2. Écoute pour l'appel d'une fonction, ex: connect(m_menu, &MenuPrincipale::demanderSimulationVol, this, &GestionnaireScenes::afficherSimulationVol);
 
 // 3. Rajoute le dans les signals du .h ex: signals:
 //                                              void demanderSimulation();

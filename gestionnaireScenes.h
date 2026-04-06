@@ -3,7 +3,8 @@
 
 #include <QStackedWidget>
 #include "menuPrincipale.h"
-#include "Simulation.h"
+#include "simulation.h"
+#include "simulationCockpit.h"
 
 class GestionnaireScenes : public QStackedWidget
 {
@@ -14,12 +15,14 @@ public:
 
 private slots:
     // Fonctions pour changer de vue
-    void afficherSimulation();
+    void afficherSimulationVol();
+    void afficherSimulationCockpit();
     void afficherMenu();
 
 private:
     MenuPrincipale* m_menu;
-    Simulation* m_simulation;
+    Simulation* m_simulationVol;
+    SimulationCockpit* m_simulationCockpit;
 };
 
 #endif

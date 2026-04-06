@@ -21,12 +21,19 @@ MenuPrincipale::MenuPrincipale(QWidget* parent) : QWidget(parent)
 
 
     // Bouttons
-    boutonCommencer = creerBouton("Demarrer les moteurs");
+    boutonCommencerVol = creerBouton("Demarrer les moteurs");
 
-    connect(boutonCommencer, &QPushButton::clicked, this, [this]() {
+    connect(boutonCommencerVol, &QPushButton::clicked, this, [this]() {
         std::cout << "Lancement de la simulation..." << std::endl;
-        emit demanderSimulation();
+        emit demanderSimulationVol();
     });
+
+    boutonCommencerCockpit = creerBouton("Vol Cockpit");
+
+    connect(boutonCommencerCockpit, &QPushButton::clicked, this, [this]() {
+        std::cout << "Lancement de la simulation..." << std::endl;
+        emit demanderSimulationCockpit();
+        });
 
     boutonQuitter = creerBouton("Quitter le cockpit");
 
@@ -72,8 +79,8 @@ void MenuPrincipale::resizeEvent(QResizeEvent* event)
     QFont f = font();
     f.setPointSize(12 + (sizeScaling/20));
 
-    // Bouton Commencer
-    if (boutonCommencer) {
+    // Bouton Commencer Vol
+    if (boutonCommencerVol) {
         int btnW = 250 + sizeScaling;
         int btnH = 50 + sizeScaling;
 
@@ -81,8 +88,21 @@ void MenuPrincipale::resizeEvent(QResizeEvent* event)
         int x = (this->width() - btnW + sizeScaling) / 2 + 150;
         int y = this->height() * 0.8;
 
-        boutonCommencer->setGeometry(x, y, btnW, btnH);
-        boutonCommencer->setFont(f);
+        boutonCommencerVol->setGeometry(x, y, btnW, btnH);
+        boutonCommencerVol->setFont(f);
+    }
+
+    // Bouton Commencer Cockpit
+    if (boutonCommencerCockpit) {
+        int btnW = 250 + sizeScaling;
+        int btnH = 50 + sizeScaling;
+
+        // Position - milieu-droit a 80% du haut
+        int x = (this->width() - btnW + sizeScaling) / 2 + 150;
+        int y = this->height() * 0.6;
+
+        boutonCommencerCockpit->setGeometry(x, y, btnW, btnH);
+        boutonCommencerCockpit->setFont(f);
     }
 
     // Bouton Quitter

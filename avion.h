@@ -1,3 +1,6 @@
+#ifndef AVION_H
+#define AVION_H
+
 #include <cmath>
 #include <algorithm>
 
@@ -42,3 +45,5 @@ class Avion {
 		double roll; // plane tilt for turning
 
 };
+
+#endif
