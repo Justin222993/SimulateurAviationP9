@@ -62,7 +62,7 @@ Item {
             color: "#ff0000"
             brightness: 0
             quadraticFade: 0.1
-            position: Qt.vector3d(100, 180, -250)
+            position: Qt.vector3d(100, 171, -250)
         }
         PointLight {
             id: light3
@@ -73,7 +73,7 @@ Item {
         }
         PointLight {
             id: light4
-            color: "#ff9200"
+            color: "#ffd500"
             brightness: 0
             quadraticFade: 0.1
             position: Qt.vector3d(100, 125, -250)
