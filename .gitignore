@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /.idea
+/SimulateurAviationP9.qtvscr
+/SimulateurAviationP9.vcxproj
+/SimulateurAviationP9.vcxproj.filters
