@@ -26,7 +26,14 @@ Avion::~Avion() {
 
 }
 
-
+void Avion::setSpeed(int newSpeed) {
+	if(fuel != 0) {
+        speed = newSpeed;
+    }
+    else {
+        speed = 0;
+	}
+}
 // Actions
 
 bool Avion::upSpeed(double additive) {

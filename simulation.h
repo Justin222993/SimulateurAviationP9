@@ -17,6 +17,7 @@
 #include <QQuickItem>
 #include "indicateurComponent.h"
 #include "avion.h"
+#include "SerialManager.h"
 
 class Simulation : public QWidget {
     Q_OBJECT
@@ -53,6 +54,7 @@ private:
     QLabel* instruments[NB_INSTRUMENTS];
     QList<IndicateurComponent*> listeIndicateurs[NB_INSTRUMENTS];
     void inputListener(Avion& p);
+    void inputArduinoHandler(Avion& p);
     Avion p;
     QTimer* timerAnimation;
     QTimer* timerDonnees;
@@ -64,8 +66,13 @@ private:
     void handleTachymetre();
     void handleBoussole();
 
+    
+
     // 3D
     QQuickWidget* view3d;
+
+    //Comms
+    SerialManager* serialManager;
 };
 
 #endif

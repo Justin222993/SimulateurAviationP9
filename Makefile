@@ -94,20 +94,12 @@ Makefile: SimulateurAviationP9.pro C:\Qt\6.10.2\msvc2022_64\mkspecs\win32-msvc\q
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_ext_libjpeg.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_ext_libpng.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_ext_openxr_loader.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_activeqt.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_activeqt_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_axbase_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_axcontainer.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_axcontainer_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_axserver.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_axserver_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_bluetooth.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_bluetooth_private.pri \
+		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_charts.pri \
+		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_charts_private.pri \
+		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_chartsqml.pri \
+		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_chartsqml_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_concurrent.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_connectivity_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_core.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_core5compat.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_core5compat_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_core_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_dbus.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_dbus_private.pri \
@@ -121,23 +113,12 @@ Makefile: SimulateurAviationP9.pro C:\Qt\6.10.2\msvc2022_64\mkspecs\win32-msvc\q
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_fb_support_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_ffmpegmediapluginimpl_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_freetype_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_graphs.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_graphs_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_graphswidgets.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_graphswidgets_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_grpc.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_grpc_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_grpcquick.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_grpcquick_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_gui.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_gui_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_harfbuzz_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_help.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_help_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_httpserver.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_httpserver_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_jpeg_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_jsonrpc_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labsanimation.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labsanimation_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labsfolderlistmodel.pri \
@@ -154,15 +135,7 @@ Makefile: SimulateurAviationP9.pro C:\Qt\6.10.2\msvc2022_64\mkspecs\win32-msvc\q
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labssynchronizer_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labswavefrontmesh.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labswavefrontmesh_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_languageserver_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_linguist.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_location.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_location_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_lottie.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_lottie_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_lottievectorimagegenerator_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_lottievectorimagehelpers.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_lottievectorimagehelpers_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_multimedia.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_multimedia_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_multimediaquick_private.pri \
@@ -171,31 +144,13 @@ Makefile: SimulateurAviationP9.pro C:\Qt\6.10.2\msvc2022_64\mkspecs\win32-msvc\q
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_network.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_network_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_networkauth.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_networkauth_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_nfc.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_nfc_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_opengl.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_opengl_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_openglwidgets.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_packetprotocol_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_png_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_positioning.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_positioning_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_positioningquick.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_positioningquick_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_printsupport.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_printsupport_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobuf.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobuf_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufqtcoretypes.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufqtcoretypes_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufqtguitypes.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufqtguitypes_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufquick.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufquick_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufwellknowntypes.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufwellknowntypes_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_qdoccatch_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_qdoccatchconversions_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_qdoccatchgenerators_private.pri \
@@ -246,10 +201,6 @@ Makefile: SimulateurAviationP9.pro C:\Qt\6.10.2\msvc2022_64\mkspecs\win32-msvc\q
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dparticleeffects.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dparticles.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dparticles_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dphysics.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dphysics_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dphysicshelpers.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dphysicshelpers_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3druntimerender.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3druntimerender_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dspatialaudio_private.pri \
@@ -312,62 +263,22 @@ Makefile: SimulateurAviationP9.pro C:\Qt\6.10.2\msvc2022_64\mkspecs\win32-msvc\q
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quickvectorimagehelpers_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quickwidgets.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quickwidgets_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_remoteobjects.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_remoteobjects_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_remoteobjectsqml.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_remoteobjectsqml_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_repparser.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_scxml.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_scxml_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_scxmlglobal_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_scxmlqml.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_scxmlqml_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sensors.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sensors_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sensorsquick.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sensorsquick_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_serialbus.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_serialbus_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_serialport.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_serialport_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_shadertools.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_shadertools_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_spatialaudio.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_spatialaudio_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sql.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sql_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_statemachine.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_statemachine_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_statemachineqml.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_statemachineqml_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_svg.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_svg_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_svgwidgets.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_testinternals_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_testlib.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_testlib_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_texttospeech.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_texttospeech_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_tools_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_uiplugin.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_uitools.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_uitools_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboard.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboard_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboardqml.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboardqml_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboardsettings.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboardsettings_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webchannel.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webchannel_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webchannelquick.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webchannelquick_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_websockets.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_websockets_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webview.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webview_private.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webviewquick.pri \
-		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webviewquick_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_widgets.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_widgets_private.pri \
 		C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_xml.pri \
@@ -441,20 +352,12 @@ C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_ext_freetype.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_ext_libjpeg.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_ext_libpng.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_ext_openxr_loader.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_activeqt.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_activeqt_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_axbase_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_axcontainer.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_axcontainer_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_axserver.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_axserver_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_bluetooth.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_bluetooth_private.pri:
+C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_charts.pri:
+C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_charts_private.pri:
+C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_chartsqml.pri:
+C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_chartsqml_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_concurrent.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_connectivity_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_core.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_core5compat.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_core5compat_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_core_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_dbus.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_dbus_private.pri:
@@ -468,23 +371,12 @@ C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_examples_asset_downloader_privat
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_fb_support_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_ffmpegmediapluginimpl_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_freetype_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_graphs.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_graphs_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_graphswidgets.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_graphswidgets_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_grpc.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_grpc_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_grpcquick.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_grpcquick_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_gui.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_gui_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_harfbuzz_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_help.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_help_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_httpserver.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_httpserver_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_jpeg_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_jsonrpc_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labsanimation.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labsanimation_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labsfolderlistmodel.pri:
@@ -501,15 +393,7 @@ C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labssynchronizer.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labssynchronizer_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labswavefrontmesh.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_labswavefrontmesh_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_languageserver_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_linguist.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_location.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_location_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_lottie.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_lottie_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_lottievectorimagegenerator_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_lottievectorimagehelpers.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_lottievectorimagehelpers_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_multimedia.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_multimedia_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_multimediaquick_private.pri:
@@ -518,31 +402,13 @@ C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_multimediawidgets.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_network.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_network_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_networkauth.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_networkauth_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_nfc.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_nfc_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_opengl.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_opengl_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_openglwidgets.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_packetprotocol_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_png_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_positioning.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_positioning_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_positioningquick.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_positioningquick_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_printsupport.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_printsupport_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobuf.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobuf_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufqtcoretypes.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufqtcoretypes_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufqtguitypes.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufqtguitypes_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufquick.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufquick_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufwellknowntypes.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_protobufwellknowntypes_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_qdoccatch_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_qdoccatchconversions_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_qdoccatchgenerators_private.pri:
@@ -593,10 +459,6 @@ C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3diblbaker_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dparticleeffects.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dparticles.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dparticles_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dphysics.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dphysics_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dphysicshelpers.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dphysicshelpers_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3druntimerender.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3druntimerender_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quick3dspatialaudio_private.pri:
@@ -659,62 +521,22 @@ C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quickvectorimagehelpers.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quickvectorimagehelpers_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quickwidgets.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_quickwidgets_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_remoteobjects.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_remoteobjects_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_remoteobjectsqml.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_remoteobjectsqml_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_repparser.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_scxml.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_scxml_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_scxmlglobal_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_scxmlqml.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_scxmlqml_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sensors.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sensors_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sensorsquick.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sensorsquick_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_serialbus.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_serialbus_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_serialport.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_serialport_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_shadertools.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_shadertools_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_spatialaudio.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_spatialaudio_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sql.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_sql_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_statemachine.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_statemachine_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_statemachineqml.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_statemachineqml_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_svg.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_svg_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_svgwidgets.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_testinternals_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_testlib.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_testlib_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_texttospeech.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_texttospeech_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_tools_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_uiplugin.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_uitools.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_uitools_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboard.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboard_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboardqml.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboardqml_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboardsettings.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_virtualkeyboardsettings_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webchannel.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webchannel_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webchannelquick.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webchannelquick_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_websockets.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_websockets_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webview.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webview_private.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webviewquick.pri:
-C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_webviewquick_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_widgets.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_widgets_private.pri:
 C:\Qt\6.10.2\msvc2022_64\mkspecs\modules\qt_lib_xml.pri:
