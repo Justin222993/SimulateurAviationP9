@@ -55,14 +55,14 @@ int baudRate = BAUD;
 
 bool NetworkIsConnected()
 {
-    return isConnected && arduino && arduino->isConnected();
+    return isConnected;
 }
 
 /*----------------------------- Fonction "Main" -----------------------------*/
 bool NetworkInit(
     /*const std::string& com, int baudrate = BAUD*/
 ) {
-    portName = "COM4";
+    portName = "COM3";
 	std::string& coms = portName;
         //com;
     baudRate = BAUD;
@@ -74,7 +74,7 @@ bool NetworkInit(
         arduino = nullptr;
     }
 
-    arduino = new SerialPort("COM4", baudRate);
+    arduino = new SerialPort("COM3", baudRate);
 
     if (!arduino->isConnected())
     {
@@ -93,7 +93,7 @@ bool NetworkInit(
     return true;
 }
 void NetworkTick() {
-    if (!isConnected || !arduino || !arduino->isConnected())
+    if (!isConnected)
     {
         std::cerr << "Reconnexion en cours..." << std::endl;
 
