@@ -47,4 +47,6 @@ class Avion {
 
 };
 
+struct v
+
 #endif
