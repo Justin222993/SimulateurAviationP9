@@ -41,7 +41,7 @@ Item {
 
         PerspectiveCamera {
             id: camera
-            position: Qt.vector3d(500, 100, 0)
+            position: Qt.vector3d(380, 50, 0)
             eulerRotation: Qt.vector3d(0, 90, 0)
         }
 
@@ -127,15 +127,17 @@ Item {
                 superFix(world)
             }
         }
-
+        /*
         WasdController {
             id: wasd
             controlledObject: camera
             speed: 0.1
             mouseEnabled: true
         }
+        */
     }
 
+/*
     Rectangle {
         anchors.top: parent.top
         anchors.right: parent.right
@@ -225,7 +227,7 @@ Item {
             }
         }
     }
-
+*/
     component LightSlider: Row {
         property alias label: lbl.text
         property alias from: sl.from

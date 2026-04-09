@@ -14,7 +14,8 @@ SOURCES += \
     SerialManager.cpp \
     avion.cpp \
     $$PWD/include/serial/SerialPort.cpp \
-	simulationCockpit.cpp
+	simulationCockpit.cpp \
+	simulationIndicateurs.cpp
 
 HEADERS += \
     menuPrincipale.h \
@@ -27,7 +28,8 @@ HEADERS += \
     SerialManager.h \
     ./include/json.hpp \
     ./include/serial/SerialPort.hpp \
-	simulationCockpit.h
+	simulationCockpit.h \
+	simulationIndicateurs.h
 
 INCLUDEPATH += $$PWD/include
 INCLUDEPATH += $$PWD/include/serial

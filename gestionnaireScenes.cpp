@@ -1,18 +1,14 @@
 #include "gestionnaireScenes.h"
 
-GestionnaireScenes::GestionnaireScenes(QWidget* parent) : QStackedWidget(parent)
+GestionnaireScenes::GestionnaireScenes(QWidget* parent)
+    : QStackedWidget(parent)
 {
-    // Background noir derrière les images
     this->setStyleSheet("background-color: black;");
 
-    // taille de base en pixels
-    this->resize(800, 600);
+    m_container = new QWidget(this);
+    m_container->setStyleSheet("background-color: black;");
 
-    // Taille minimale
-    this->setMinimumSize(800, 600);
-
-    // On garde les boutons standards (réduire, agrandir/plein écran, fermer)
-    this->setWindowFlags(Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint);
+    m_stack = new QStackedWidget(m_container);
 
     // Initialisation des scènes
     m_menu = new MenuPrincipale();
@@ -20,41 +16,71 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent) : QStackedWidget(parent)
     m_simulationCockpit = new SimulationCockpit();
 
     // Ajout à la pile
-    this->addWidget(m_menu);
-    this->addWidget(m_simulationVol);
-    this->addWidget(m_simulationCockpit);
+    m_stack->addWidget(m_menu);
+    m_stack->addWidget(m_simulationVol);
+    m_stack->addWidget(m_simulationCockpit);
+
+    this->resize(800, 450);
+
+    this->setMinimumSize(800, 450);
+    this->setMaximumSize(1920, 1080);
+
+    this->setWindowFlags(Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint);
 
     // On écoute le signal du menu pour changer de scène
-    connect(m_menu, &MenuPrincipale::demanderSimulationVol, this, &GestionnaireScenes::afficherSimulationVol);
-    connect(m_menu, &MenuPrincipale::demanderSimulationCockpit, this, &GestionnaireScenes::afficherSimulationCockpit);
+    connect(m_menu, &MenuPrincipale::demanderSimulationVol,
+        this, &GestionnaireScenes::afficherSimulationVol);
+
+    connect(m_menu, &MenuPrincipale::demanderSimulationCockpit,
+        this, &GestionnaireScenes::afficherSimulationCockpit);
 }
 
 void GestionnaireScenes::afficherMenu()
 {
-    this->setCurrentWidget(m_menu);
+    m_stack->setCurrentWidget(m_menu);
 }
 
 void GestionnaireScenes::afficherSimulationVol()
 {
-    this->setCurrentWidget(m_simulationVol);
+    m_stack->setCurrentWidget(m_simulationVol);
     m_simulationVol->demarrer();
 }
 
 void GestionnaireScenes::afficherSimulationCockpit()
 {
-    this->setCurrentWidget(m_simulationCockpit);
+    m_stack->setCurrentWidget(m_simulationCockpit);
+    m_simulationCockpit->demarrer();
 }
 
-// Pour changer de scène:
+// Pour garder le ratio 16/9 de l'ecran, mais des bordures autour du container si la size match pas
+void GestionnaireScenes::resizeEvent(QResizeEvent* event)
+{
+    QSize s = event->size();
 
-// 1. Créer un bouton/action qui va trigger la scène
+    const float targetRatio = 16.0f / 9.0f;
 
-// 2. Écoute pour l'appel d'une fonction, ex: connect(m_menu, &MenuPrincipale::demanderSimulationVol, this, &GestionnaireScenes::afficherSimulationVol);
+    int w = s.width();
+    int h = s.height();
 
-// 3. Rajoute le dans les signals du .h ex: signals:
-//                                              void demanderSimulation();
+    int newW, newH;
 
-// 4. Ensuite tu peut le connecter a un bouton ou juste appeler le emit sous l'action. ex:
-//  connect(boutonCommencer, &QPushButton::clicked, this, [this]() {
-//      emit demanderSimulation();
-//  });
+    if ((float)w / h > targetRatio) {
+
+        newW = h * targetRatio;
+        newH = h;
+    }
+    else {
+
+        newW = w;
+        newH = w / targetRatio;
+    }
+
+    int x = (w - newW) / 2;
+    int y = (h - newH) / 2;
+
+    m_container->setGeometry(x, y, newW, newH);
+
+    m_stack->setGeometry(0, 0, newW, newH);
+
+    QStackedWidget::resizeEvent(event);
+}
