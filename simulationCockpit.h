@@ -16,20 +16,32 @@
 #include <QMetaObject>
 #include <QQuickItem>
 #include "indicateurComponent.h"
-#include "avion.h"
+#include "simulationIndicateurs.h"
 
 class SimulationCockpit : public QWidget {
     Q_OBJECT
-
-    public:
-        SimulationCockpit(QWidget* parent = nullptr);
+public:
+    SimulationCockpit(QWidget* parent = nullptr);
+    void demarrer();
 
 protected:
     void resizeEvent(QResizeEvent* event) override;
 
-    private:
-        // 3D
-        QQuickWidget* view3d;
+private:
+    SimulationIndicateurs sim;
+
+    QLabel* instruments[SimulationIndicateurs::NB_INSTRUMENTS];
+    QLabel* ecranText;
+    QList<IndicateurComponent*> listeIndicateurs[SimulationIndicateurs::NB_INSTRUMENTS];
+
+    QTimer* timerAnimation;
+    QTimer* timerDonnees;
+
+    QQuickWidget* view3d;
+
+    void setupIndicateurs();
+    void messagesWarning();
+    void messagesMorts();
 };
 
 #endif

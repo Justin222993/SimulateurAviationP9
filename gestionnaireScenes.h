@@ -20,9 +20,15 @@ private slots:
     void afficherMenu();
 
 private:
+    QWidget* m_container;
+    QStackedWidget* m_stack;
+
     MenuPrincipale* m_menu;
     Simulation* m_simulationVol;
     SimulationCockpit* m_simulationCockpit;
+
+protected:
+    void resizeEvent(QResizeEvent* event) override;
 };
 
 #endif
