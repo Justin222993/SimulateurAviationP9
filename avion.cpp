@@ -2,7 +2,12 @@
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
+
+
 #endif
+#ifndef G_factor
+#define G_factor -9.81
+#endif // !G_facti
 
 Avion::Avion()
 {
