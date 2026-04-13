@@ -26,6 +26,7 @@ private:
     QPushButton* boutonAjouter;
     QPushButton* boutonChoisir;
     QPushButton* boutonVoirStats;
+    QPushButton* boutonFermerStats;
     QLineEdit* champNom;
     QListWidget* listePilotes;
     QLabel* labelTitre;

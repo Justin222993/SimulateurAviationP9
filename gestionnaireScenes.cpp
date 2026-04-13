@@ -75,6 +75,7 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent)
         m_piloteActif = p;
         m_simulationVol->setPiloteActif(p);
         m_simulationCockpit->setPiloteActif(p);
+        m_menu->setPiloteActif(p->getNom());
         });
 }
 

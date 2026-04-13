@@ -15,7 +15,7 @@ class MenuPrincipale : public QWidget {
     Q_OBJECT
 public:
     MenuPrincipale(QWidget* parent = nullptr);
-
+    void setPiloteActif(const QString& nom);
 protected:
     void resizeEvent(QResizeEvent* event) override;
 
@@ -24,6 +24,7 @@ private:
     QPushButton* boutonCommencerCockpit;
     QPushButton* boutonQuitter;
     QPushButton* boutonComptePilote;
+    QLabel* labelPiloteActif;
     QMovie* fondAnimation;
     QLabel* titre;
     QPushButton* creerBouton(std::string message);

@@ -54,12 +54,43 @@ MenuPrincipale::MenuPrincipale(QWidget* parent) : QWidget(parent)
         emit demanderComptePilote();
         });
 
+    labelPiloteActif = new QLabel("Aucun pilote selectionne", this);
+    labelPiloteActif->setStyleSheet(
+        "color: rgba(255, 100, 100, 200);"
+        "font-family: 'Consolas', monospace;"
+        "font-size: 14px;"
+        "letter-spacing: 2px;"
+    );
+    labelPiloteActif->setAlignment(Qt::AlignCenter);
+    labelPiloteActif->raise();
+
     // Titre
     titre = new QLabel(this);
     QPixmap pix("ressources/menuPrincipale/aviationTitre.png");
     titre->setPixmap(pix);
     titre->setScaledContents(true);
     titre->raise();
+}
+
+void MenuPrincipale::setPiloteActif(const QString& nom) {
+    if (nom.isEmpty()) {
+        labelPiloteActif->setText("Aucun pilote selectionne");
+        labelPiloteActif->setStyleSheet(
+            "color: rgba(255, 100, 100, 200);"
+            "font-family: 'Consolas', monospace;"
+            "font-size: 14px;"
+            "letter-spacing: 2px;"
+        );
+    }
+    else {
+        labelPiloteActif->setText("Pilote actif: " + nom);
+        labelPiloteActif->setStyleSheet(
+            "color: rgba(0, 255, 0, 200);"
+            "font-family: 'Consolas', monospace;"
+            "font-size: 14px;"
+            "letter-spacing: 2px;"
+        );
+    }
 }
 
 void MenuPrincipale::resizeEvent(QResizeEvent* event)
@@ -149,6 +180,13 @@ void MenuPrincipale::resizeEvent(QResizeEvent* event)
         int logoY = this->height() * 0.1;
 
         titre->setGeometry(logoX, logoY, logoW, logoH);
+    }
+
+    if (labelPiloteActif) {
+        int lblW = 300 + sizeScaling;
+        int x = (this->width() - lblW) / 2;
+        int y = this->height() * 0.93;
+        labelPiloteActif->setGeometry(x, y, lblW, 30);
     }
 }
 

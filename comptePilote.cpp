@@ -91,6 +91,29 @@ ComptePilote::ComptePilote(QWidget* parent)
     connect(boutonRetour, &QPushButton::clicked, this, [this]() {
         emit demanderRetourMenu();
         });
+
+    boutonFermerStats = new QPushButton("< Retour a la liste", panneauStats);
+    boutonFermerStats->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgba(30, 30, 30, 150);"
+        "   color: rgba(0, 255, 0, 200);"
+        "   border: 1px solid rgba(0, 255, 0, 100);"
+        "   border-radius: 2px;"
+        "   padding: 8px;"
+        "   font-family: 'Consolas', monospace;"
+        "   letter-spacing: 2px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgba(0, 255, 0, 40);"
+        "   border: 1px solid rgba(0, 255, 0, 255);"
+        "   color: #00FF00;"
+        "}"
+    );
+    connect(boutonFermerStats, &QPushButton::clicked, this, [this]() {
+        panneauStats->hide();
+        m_statsVisibles = false;
+        boutonVoirStats->setText("Voir historique de vol");
+        });
 }
 
 Pilote* ComptePilote::getPiloteSelectionne() const {
@@ -127,7 +150,6 @@ void ComptePilote::mettreAJourLabel() {
 void ComptePilote::afficherStats() {
     int index = listePilotes->currentRow();
     if (index < 0 || index >= m_pilotes.size()) return;
-
     Pilote* p = m_pilotes[index];
 
     if (m_statsVisibles) {
@@ -138,7 +160,8 @@ void ComptePilote::afficherStats() {
     }
 
     labelStats->setText(genererTexteStats(p));
-    labelStats->setGeometry(8, 8, panneauStats->width() - 16, panneauStats->height() - 16);
+    labelStats->setGeometry(8, 40, panneauStats->width() - 16, panneauStats->height() - 56);
+    boutonFermerStats->setGeometry(8, 8, panneauStats->width() - 16, 30);
     panneauStats->show();
     panneauStats->raise();
     m_statsVisibles = true;
@@ -189,6 +212,11 @@ void ComptePilote::resizeEvent(QResizeEvent* event) {
 
     if (m_statsVisibles)
         labelStats->setGeometry(8, 8, largeur - 16, h * 0.50 - 16);
+
+    if (m_statsVisibles) {
+        labelStats->setGeometry(8, 40, largeur - 16, h * 0.50 - 56);
+        boutonFermerStats->setGeometry(8, 8, largeur - 16, 30);
+    }
 }
 
 QPushButton* ComptePilote::creerBouton(const QString& message) {
