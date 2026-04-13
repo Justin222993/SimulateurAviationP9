@@ -14,11 +14,13 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent)
     m_menu = new MenuPrincipale();
     m_simulationVol = new Simulation();
     m_simulationCockpit = new SimulationCockpit();
+    m_comptePilote = new ComptePilote();
 
     // Ajout à la pile
     m_stack->addWidget(m_menu);
     m_stack->addWidget(m_simulationVol);
     m_stack->addWidget(m_simulationCockpit);
+    m_stack->addWidget(m_comptePilote);
 
     this->resize(800, 450);
 
@@ -33,6 +35,47 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent)
 
     connect(m_menu, &MenuPrincipale::demanderSimulationCockpit,
         this, &GestionnaireScenes::afficherSimulationCockpit);
+
+    connect(m_menu, &MenuPrincipale::demanderComptePilote,
+        this, &GestionnaireScenes::afficherComptePilote);
+
+    connect(m_comptePilote, &ComptePilote::demanderRetourMenu,
+        this, &GestionnaireScenes::afficherMenu);
+
+    m_piloteActif = nullptr;
+
+    connect(m_comptePilote, &ComptePilote::piloteChoisi, this, [this](Pilote* p) {
+        m_piloteActif = p;
+        std::cout << "Pilote actif: " << p->getNom().toStdString() << std::endl;
+        });
+
+    connect(m_comptePilote, &ComptePilote::piloteChoisi, this, [this](Pilote* p) {
+        m_piloteActif = p;
+        m_simulationVol->setPiloteActif(p);
+        m_simulationCockpit->setPiloteActif(p);
+        });
+
+    connect(m_simulationVol, &Simulation::demanderRetourMenu, this, [this]() {
+        m_simulationVol->terminerVol(false, "Vol standard");
+        afficherMenu();
+        });
+
+    connect(m_simulationCockpit, &SimulationCockpit::demanderRetourMenu, this, [this]() {
+        m_simulationCockpit->terminerVol(false, "Vol cockpit");
+        afficherMenu();
+        });
+
+    connect(m_menu, &MenuPrincipale::demanderComptePilote,
+        this, &GestionnaireScenes::afficherComptePilote);
+
+    connect(m_comptePilote, &ComptePilote::demanderRetourMenu,
+        this, &GestionnaireScenes::afficherMenu);
+
+    connect(m_comptePilote, &ComptePilote::piloteChoisi, this, [this](Pilote* p) {
+        m_piloteActif = p;
+        m_simulationVol->setPiloteActif(p);
+        m_simulationCockpit->setPiloteActif(p);
+        });
 }
 
 void GestionnaireScenes::afficherMenu()
@@ -50,6 +93,11 @@ void GestionnaireScenes::afficherSimulationCockpit()
 {
     m_stack->setCurrentWidget(m_simulationCockpit);
     m_simulationCockpit->demarrer();
+}
+
+void GestionnaireScenes::afficherComptePilote()
+{
+    m_stack->setCurrentWidget(m_comptePilote);
 }
 
 // Pour garder le ratio 16/9 de l'ecran, mais des bordures autour du container si la size match pas

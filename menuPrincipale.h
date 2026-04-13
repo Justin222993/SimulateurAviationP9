@@ -23,6 +23,7 @@ private:
     QPushButton* boutonCommencerVol;
     QPushButton* boutonCommencerCockpit;
     QPushButton* boutonQuitter;
+    QPushButton* boutonComptePilote;
     QMovie* fondAnimation;
     QLabel* titre;
     QPushButton* creerBouton(std::string message);
@@ -30,6 +31,7 @@ private:
 signals:
     void demanderSimulationVol();
     void demanderSimulationCockpit();
+    void demanderComptePilote();
 };
 
 #endif

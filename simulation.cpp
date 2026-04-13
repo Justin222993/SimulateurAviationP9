@@ -3,13 +3,14 @@
 #include <iomanip>
 #include <thread>
 
-// J'ai enlever beaucoup de commentaires d'explications car sa devrait etre acquis
-// Sinon vous pouvez retourner dans le github ou lire le code
-
-Simulation::Simulation(QWidget* parent) : QWidget(parent) {
+Simulation::Simulation(QWidget* parent) : QWidget(parent)
+, m_piloteActif(nullptr)
+, m_nbWarnings(0)
+, m_altitudeMax(0.0)
+, m_speedMax(0.0)
+{
     this->setStyleSheet("background-color: black;");
 
-    // Scene 3D
     view3d = new QQuickWidget(this);
     view3d->setSource(QUrl::fromLocalFile("scene3D.qml"));
     view3d->setResizeMode(QQuickWidget::SizeRootObjectToView);
@@ -19,7 +20,6 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
 
     setupIndicateurs();
 
-    // TIMER : Fluidité visuelle
     timerAnimation = new QTimer(this);
     connect(timerAnimation, &QTimer::timeout, this, [this]() {
         for (int i = 0; i < SimulationIndicateurs::NB_INSTRUMENTS; ++i) {
@@ -27,11 +27,13 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
         }
         });
 
-    // TIMER : Mise à jour des données
     timerDonnees = new QTimer(this);
     connect(timerDonnees, &QTimer::timeout, this, [this]() {
         Avion& p = sim.getAvion();
         p.calculateNewPosition();
+
+        if (p.getAltitude() > m_altitudeMax) m_altitudeMax = p.getAltitude();
+        if (p.getSpeed() > m_speedMax) m_speedMax = p.getSpeed();
 
         if (view3d && view3d->rootObject()) {
             QVariantMap data;
@@ -48,8 +50,7 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
                 Q_ARG(QVariant, QVariant::fromValue(data)));
         }
 
-        // Refresh de la console perpetuelle
-        std::cout << "\033[H\033[J"; // clears terminal
+        std::cout << "\033[H\033[J";
         std::cout << std::fixed << std::setprecision(2) << std::left
             << "Speed: " << std::setw(8) << p.getSpeed()
             << "Alt: " << std::setw(10) << p.getAltitude()
@@ -88,21 +89,58 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent) {
         });
 }
 
+void Simulation::setPiloteActif(Pilote* p) {
+    m_piloteActif = p;
+    m_nbWarnings = 0;
+    m_altitudeMax = 0.0;
+    m_speedMax = 0.0;
+}
+
+void Simulation::terminerVol(bool estMort, const QString& typeVol) {
+    if (!m_piloteActif) return;
+
+    DonneesVol vol;
+    vol.typeVol = typeVol;
+    vol.nbWarnings = m_nbWarnings;
+    vol.estMort = estMort;
+    vol.dateVol = QDateTime::currentDateTime();
+    vol.altitudeMax = m_altitudeMax;
+    vol.speedMax = m_speedMax;
+
+    m_piloteActif->ajouterVol(vol);
+}
+
 void Simulation::messagesWarning() {
     Avion& p = sim.getAvion();
-    if (p.getAltitude() <= 1000) std::cout << "| ALTITUDE CRITICALLY LOW | -> Should be over 1000\n";
-    if (p.getSpeed() <= 10)   std::cout << "| SPEED CRITICALLY LOW | -> Should be over 10\n";
-    if (p.getFuel() <= 50)   std::cout << "| FUEL CRITICALLY LOW | -> Should be over 50\n";
+    if (p.getAltitude() <= 1000) {
+        std::cout << "| ALTITUDE CRITICALLY LOW | -> Should be over 1000\n";
+        m_nbWarnings++;
+    }
+    if (p.getSpeed() <= 10) {
+        std::cout << "| SPEED CRITICALLY LOW | -> Should be over 10\n";
+        m_nbWarnings++;
+    }
+    if (p.getFuel() <= 50) {
+        std::cout << "| FUEL CRITICALLY LOW | -> Should be over 50\n";
+        m_nbWarnings++;
+    }
 }
 
 void Simulation::messagesMorts() {
     if (sim.getAvion().getAltitude() <= 0) {
         std::cout << "| CRASH | -> Hit the ground\n";
-        timerDonnees->stop(); // arrete la simulation
+        timerDonnees->stop();
+        timerAnimation->stop();
+        terminerVol(true, "Vol standard");
+        emit demanderRetourMenu();
     }
 }
 
 void Simulation::demarrer() {
+    m_nbWarnings = 0;
+    m_altitudeMax = 0.0;
+    m_speedMax = 0.0;
+
     double initialSpeed = 40.0;
     double initialAlt = 3000.0;
     double startX = 0.0;
@@ -165,31 +203,25 @@ void Simulation::setupIndicateurs() {
         instruments[i]->raise();
     }
 
-    // Anemometre
     listeIndicateurs[SimulationIndicateurs::Anemometre].append(
         new IndicateurComponent(this, "ressources/simulateur/aiguille.png", 0.6f, 1.5f));
 
-    // Altimetre
     listeIndicateurs[SimulationIndicateurs::Altimetre].append(
         new IndicateurComponent(this, "ressources/simulateur/aiguille.png", 0.6f, 1.5f));
     listeIndicateurs[SimulationIndicateurs::Altimetre].append(
         new IndicateurComponent(this, "ressources/simulateur/aiguille.png", 0.4f, 1.5f));
 
-    // Variometre
     listeIndicateurs[SimulationIndicateurs::Variometre].append(
         new IndicateurComponent(this, "ressources/simulateur/aiguille.png", 0.6f, 1.5f));
 
-    // Cap
     listeIndicateurs[SimulationIndicateurs::Cap].append(
         new IndicateurComponent(this, "ressources/simulateur/valeurs-cap.png", 1.05f, 2.0f));
 
-    // Virage
     listeIndicateurs[SimulationIndicateurs::Virage].append(
         new IndicateurComponent(this, "ressources/simulateur/coordonateur-de-virage-aiguille.png", 1.0f, 2.0f));
     listeIndicateurs[SimulationIndicateurs::Virage].append(
         new IndicateurComponent(this, "ressources/simulateur/coordonateur-de-virage-cercle.png", 0.13f, 2.0f, 0, -103.5));
 
-    // Horizon
     listeIndicateurs[SimulationIndicateurs::Horizon].append(
         new IndicateurComponent(this, "ressources/simulateur/horizon-artificiel-cieletsol.png", 2.0f, 2.0f));
     listeIndicateurs[SimulationIndicateurs::Horizon].append(
@@ -197,11 +229,9 @@ void Simulation::setupIndicateurs() {
     listeIndicateurs[SimulationIndicateurs::Horizon].append(
         new IndicateurComponent(this, "ressources/simulateur/horizon-artificiel.png", 1.0f, 2.0f));
 
-    // Tachymetre
     listeIndicateurs[SimulationIndicateurs::Tachymetre].append(
         new IndicateurComponent(this, "ressources/simulateur/aiguille.png", 0.6f, 1.5f));
 
-    // Boussole
     instruments[SimulationIndicateurs::Boussole]->setPixmap(
         QPixmap("ressources/simulateur/boussole.png"));
     listeIndicateurs[SimulationIndicateurs::Boussole].append(

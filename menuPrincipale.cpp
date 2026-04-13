@@ -47,6 +47,13 @@ MenuPrincipale::MenuPrincipale(QWidget* parent) : QWidget(parent)
         });
     });
 
+    boutonComptePilote = creerBouton("Compte Pilote");
+
+    connect(boutonComptePilote, &QPushButton::clicked, this, [this]() {
+        std::cout << "Ouverture du compte pilote..." << std::endl;
+        emit demanderComptePilote();
+        });
+
     // Titre
     titre = new QLabel(this);
     QPixmap pix("ressources/menuPrincipale/aviationTitre.png");
@@ -116,6 +123,19 @@ void MenuPrincipale::resizeEvent(QResizeEvent* event)
 
         boutonQuitter->setGeometry(x, y, btnW, btnH);
         boutonQuitter->setFont(f);
+    }
+
+    // Bouton Compte Pilote
+    if (boutonComptePilote) {
+        int btnW = 250 + sizeScaling;
+        int btnH = 50 + sizeScaling;
+
+        // Position - milieu-gauche a 60% du haut
+        int x = (this->width() - btnW - sizeScaling) / 2 - 150;
+        int y = this->height() * 0.6;
+
+        boutonComptePilote->setGeometry(x, y, btnW, btnH);
+        boutonComptePilote->setFont(f);
     }
 
     // Titre
