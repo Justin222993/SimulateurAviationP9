@@ -18,9 +18,9 @@ int main(int argc, char* argv[])
     // Initialisation des services de communication série
     SerialManager::GetInstance();
 
-    std::thread t3(networkTickMaker);
+    //std::thread t3(networkTickMaker);
 
-    t3.detach();
+    //t3.detach();
 
 
     QApplication a(argc, argv);
