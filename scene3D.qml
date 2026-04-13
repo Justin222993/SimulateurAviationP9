@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick3D
-import "ressources/model3D"
+import "ressources/model3D/city"
 
 Item {
     id: rootItem
