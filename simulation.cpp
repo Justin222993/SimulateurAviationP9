@@ -122,15 +122,15 @@ void Simulation::demarrer() {
     t2.detach();
 
     timerAnimation->start(16);
-    timerDonnees->start(25);
+    timerDonnees->start(4);
 }
 
 void Simulation::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
 
-    int diametre = this->width() * 0.182;
-    double posX[] = { 0.185, 0.395, 0.605, 0.815 };
-    double posY[] = { 0.330, 0.665 };
+    int diametre = this->width() * 0.1;
+    double posX[] = { 0.305, 0.435, 0.565, 0.695 };
+    double posY[] = { 0.70, 0.90 };
 
     for (int i = 0; i < SimulationIndicateurs::NB_INSTRUMENTS; ++i) {
         int centreX = this->width() * posX[i % 4];
