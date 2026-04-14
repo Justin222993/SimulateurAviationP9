@@ -276,4 +276,4 @@ QPushButton* ComptePilote::creerBouton(const QString& message) {
     return le_bouton;
 }
 
-#include "moc_comptePilote.cpp"
+//#include "moc_comptePilote.cpp"
