@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick3D
 import QtQuick3D.Helpers
 import QtQuick.Controls
-import "ressources/model3D"
+import "ressources/model3D/cockpit"
 
 // Holy Spaghetti code
 
