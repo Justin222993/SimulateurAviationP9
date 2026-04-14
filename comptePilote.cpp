@@ -91,6 +91,9 @@ ComptePilote::ComptePilote(QWidget* parent)
     );
     labelStats->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     labelStats->setWordWrap(true);
+    labelStats->setMinimumWidth(100);
+    labelStats->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    labelStats->setTextInteractionFlags(Qt::TextSelectableByMouse);
     scrollStats->setWidget(labelStats);
 
     boutonFermerStats = new QPushButton("< Retour a la liste", this);
@@ -179,6 +182,8 @@ void ComptePilote::afficherStats() {
     }
 
     labelStats->setText(genererTexteStats(p));
+    labelStats->adjustSize();
+    scrollStats->verticalScrollBar()->setValue(0);
     scrollStats->show();
     scrollStats->raise();
     boutonFermerStats->show();
@@ -247,6 +252,8 @@ void ComptePilote::resizeEvent(QResizeEvent* event) {
     boutonVoirStats->setGeometry(margeH, h * 0.68, largeur, 40);
     boutonRetour->setGeometry(margeH, h * 0.85, largeur, 45);
     scrollStats->setGeometry(margeH, h * 0.32, largeur, h * 0.45);
+    if (labelStats)
+        labelStats->setMinimumWidth(scrollStats->width() - 20);
     boutonFermerStats->setGeometry(margeH, h * 0.79, largeur, 40);
 }
 

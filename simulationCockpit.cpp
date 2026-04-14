@@ -34,6 +34,34 @@ SimulationCockpit::SimulationCockpit(QWidget* parent) : QWidget(parent)
 
     setupIndicateurs();
 
+    boutonQuitter = new QPushButton("Quitter", this);
+    boutonQuitter->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgba(30, 30, 30, 150);"
+        "   color: rgba(255, 50, 50, 200);"
+        "   border: 1px solid rgba(255, 50, 50, 100);"
+        "   border-radius: 2px;"
+        "   padding: 8px;"
+        "   font-family: 'Consolas', monospace;"
+        "   letter-spacing: 2px;"
+        "}"
+        "QPushButton:hover {"
+        "   background-color: rgba(255, 50, 50, 40);"
+        "   border: 1px solid rgba(255, 50, 50, 255);"
+        "   color: #FF3232;"
+        "}"
+        "QPushButton:pressed {"
+        "   background-color: rgba(255, 50, 50, 80);"
+        "}"
+    );
+    boutonQuitter->raise();
+    connect(boutonQuitter, &QPushButton::clicked, this, [this]() {
+        timerDonnees->stop();
+        timerAnimation->stop();
+        terminerVol(false, "Vol cockpit");
+        emit demanderRetourMenu();
+        });
+
     timerAnimation = new QTimer(this);
     connect(timerAnimation, &QTimer::timeout, this, [this]() {
         for (int i = 0; i < SimulationIndicateurs::NB_INSTRUMENTS; ++i) {
@@ -197,6 +225,9 @@ void SimulationCockpit::resizeEvent(QResizeEvent* event) {
 
     if (view3d)
         view3d->setGeometry(0, 0, this->width(), this->height());
+
+    if (boutonQuitter)
+        boutonQuitter->setGeometry(this->width() - 120, 10, 100, 35);
 }
 
 void SimulationCockpit::setupIndicateurs() {

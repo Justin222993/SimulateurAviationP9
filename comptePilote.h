@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QScrollArea>
+#include <QScrollBar>
 #include <QPushButton>
 #include <QLabel>
 #include <QLineEdit>

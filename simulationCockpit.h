@@ -5,6 +5,7 @@
 #include <QList>
 #include <QPainter>
 #include <QTimer>
+#include <QPushButton>
 #include <QDebug>
 #include <QRandomGenerator>
 #include <iostream>
@@ -37,6 +38,7 @@ private:
     QQuickWidget* view3d;
     Pilote* m_piloteActif;
     QSet<QString> m_typesWarnings;
+    QPushButton* boutonQuitter;
     double m_altitudeMax;
     double m_speedMax;
     void setupIndicateurs();
