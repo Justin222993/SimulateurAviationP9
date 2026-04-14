@@ -17,29 +17,25 @@ Item {
     property real targetPitch: 0
     property real targetRoll: 0
 
-    // Valeur de 1000 probablement a descendre quand on aura la manette
     Behavior on targetPitch { NumberAnimation { duration: 1000; easing.type: Easing.OutCubic } }
     Behavior on targetRoll  { NumberAnimation { duration: 1000; easing.type: Easing.OutCubic } }
 
-    // La fonction appelée par QMetaObject::invokeMethod de simulation.cpp
-    // Elle reçoit l'objet data
     function updateCamera(data) {
         if (activeCamera) {
-            let scale = 0.002 // La scène 3D a un différentt scale, donc on a juste
+            let scale = 0.05
 
-        activeCamera.x = originX - (data.x * scale)
-        activeCamera.y = (data.altitude * scale) // On garde pas l'altitude de base pour que le sol 0 soit le même que dans le plan 3D
-        activeCamera.z = originZ - (data.y * scale) // "-" pour avancer dans Qt, J'ai aussi mis l'origin Z - le data y parce que les axes sont pas pareilles (J'ai choisis z pour l'altitude mais c'est y pour le modèle 3D)
+            activeCamera.x = originX - (data.x * scale)
+            activeCamera.y = (data.altitude * scale)
+            activeCamera.z = originZ - (data.y * scale)
 
-        // 30 est un magic number pour calibrer la rotation du monde blender et la rotation du monde Qt
-        activeCamera.eulerRotation.y = originYaw - data.yaw + 30
+            let calibrationQtBlender = 90
+            activeCamera.eulerRotation.y = originYaw - data.yaw + calibrationQtBlender
 
-        // On lerp visuellement le pitch et le roll pour que sa soit plus smooth
-        targetPitch = data.pitch 
-        targetRoll = data.roll
+            targetPitch = data.pitch 
+            targetRoll = data.roll
 
-        activeCamera.eulerRotation.x = originPitch + targetPitch
-        activeCamera.eulerRotation.z = originRoll - targetRoll
+            activeCamera.eulerRotation.x = originPitch + targetPitch
+            activeCamera.eulerRotation.z = originRoll - targetRoll
         }
     }
 
@@ -48,60 +44,106 @@ Item {
         anchors.fill: parent
 
         environment: SceneEnvironment {
-            clearColor: "black"
+            clearColor: "#87CEEB"
             backgroundMode: SceneEnvironment.Color
     
-            antialiasingMode: SceneEnvironment.MSAA
-            antialiasingQuality: SceneEnvironment.High
-
+            antialiasingMode: SceneEnvironment.NoAA
+            antialiasingQuality: SceneEnvironment.NoAA
+            
             tonemapMode: SceneEnvironment.TonemapModeLinear
+            
+            depthTestEnabled: true
+            depthPrePassEnabled: true
+            
+            fog: Fog {
+                enabled: true
+                color: "#b0c4de"
+                depthEnabled: true
+                depthNear: 300
+                depthFar: 600
+            }
         }
 
-        MiniHouses {
-            id: world
+        PerspectiveCamera {
+            id: mainCamera
+            objectName: "Camera"
+            position: Qt.vector3d(0, 6, 15)
+            eulerRotation: Qt.vector3d(-10, 0, 0)
+            clipNear: 0.1
+            clipFar: 1000
+            fieldOfView: 60
+        }
 
-            Component.onCompleted: {
-                // Pour trouver les objets dans le modele 3d .qml
-                function findObject(root, name) {
-                    if (root.objectName === name) return root;
-                    for (var i = 0; i < root.children.length; i++) {
-                        var found = findObject(root.children[i], name);
-                        if (found) return found;
+        DirectionalLight {
+            id: sunLight
+            objectName: "Sun"
+            eulerRotation: Qt.vector3d(-45, 30, 0)
+            color: "#ffffff"
+            brightness: 1.5
+            castsShadow: false
+        }
+
+        DirectionalLight {
+            eulerRotation: Qt.vector3d(45, -30, 0)
+            color: "#8899bb"
+            brightness: 0.3
+        }
+
+        Repeater3D {
+            model: 25 
+            
+            City {
+                id: cityTile
+                property real tileWidth: 400
+                property real tileDepth: 400
+                property int gridSize: 5
+                
+                property int gridX: index % gridSize
+                property int gridZ: Math.floor(index / gridSize)
+                
+                position: {
+                    if (!rootItem.activeCamera) return Qt.vector3d(0, 0, 0);
+                    
+                    let camX = rootItem.activeCamera.x;
+                    let camZ = rootItem.activeCamera.z;
+                    
+                    let localOffsetX = (gridX - 2) * tileWidth;
+                    let localOffsetZ = (gridZ - 2) * tileDepth;
+
+                    let finalX = Math.floor((camX - localOffsetX + (tileWidth * 2.5)) / (tileWidth * 5)) * (tileWidth * 5) + localOffsetX;
+                    let finalZ = Math.floor((camZ - localOffsetZ + (tileDepth * 2.5)) / (tileDepth * 5)) * (tileDepth * 5) + localOffsetZ;
+
+                    return Qt.vector3d(finalX, 0, finalZ);
+                }
+                
+                Component.onCompleted: {
+                    function fixMaterials(node) {
+                        if (node.materials) {
+                            for (var i = 0; i < node.materials.length; i++) {
+                                if (node.materials[i]) {
+                                    node.materials[i].alphaMode = PrincipledMaterial.Opaque;
+                                }
+                            }
+                        }
+                        for (var j = 0; j < node.children.length; j++) {
+                            fixMaterials(node.children[j]);
+                        }
                     }
-                    return null;
+                    fixMaterials(cityTile);
                 }
-
-                // Trouve et set la caméra
-                var cam = findObject(world, "Camera");
-                if (cam) {
-                    view.camera = cam;
-  
-                    rootItem.activeCamera = cam;
-                    rootItem.originX = cam.x;
-                    rootItem.originY = cam.y;
-                    rootItem.originZ = cam.z;
-                    rootItem.originPitch = cam.eulerRotation.x;
-                    rootItem.originYaw = cam.eulerRotation.y;
-                    rootItem.originRoll = cam.eulerRotation.z;
-
-                    console.log("Position initiale de la camera: X: " + rootItem.originX + ", Y: " + rootItem.originY + ", Z: " + rootItem.originZ);
-                    console.log("Rotation initiale de la camera: Pitch: " + rootItem.originPitch + ", Yaw: " + rootItem.originRoll + ", Roll: " + rootItem.originRoll);
-                }
-        
-                // Soleil (Valeur de brightness ajusté)
-                var sun = findObject(world, "Sun");
-                if (sun) sun.brightness = 10;
-
-                // Quelques lampes que j'ai dû ajuster la valeur de
-                var bigLight = findObject(world, "Light");
-                if (bigLight) bigLight.brightness = 3;
-
-                var p2 = findObject(world, "Point.002");
-                if (p2) p2.brightness = 1; 
-
-                var p3 = findObject(world, "Point.003");
-                if (p3) p3.brightness = 1;
             }
+        }
+
+        Component.onCompleted: {
+            view.camera = mainCamera;
+            rootItem.activeCamera = mainCamera;
+            
+            rootItem.originX = mainCamera.x;
+            rootItem.originY = mainCamera.y;
+            rootItem.originZ = mainCamera.z;
+            rootItem.originPitch = mainCamera.eulerRotation.x;
+            rootItem.originYaw = mainCamera.eulerRotation.y;
+            rootItem.originRoll = mainCamera.eulerRotation.z;
         }
     }
 }
