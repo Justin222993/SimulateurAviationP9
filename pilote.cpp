@@ -24,9 +24,9 @@ int Pilote::getNbMorts() const {
     return count;
 }
 
-int Pilote::getNbWarningsTotal() const {
-    int count = 0;
+QSet<QString> Pilote::getTypesWarningsUniques() const {
+    QSet<QString> tous;
     for (const DonneesVol& v : m_historiqueVols)
-        count += v.nbWarnings;
-    return count;
+        tous.unite(v.typesWarnings);
+    return tous;
 }

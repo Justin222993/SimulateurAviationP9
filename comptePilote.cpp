@@ -60,39 +60,40 @@ ComptePilote::ComptePilote(QWidget* parent)
         "}"
     );
 
-    // Panneau stats
-    panneauStats = new QWidget(this);
-    panneauStats->setStyleSheet(
-        "background-color: rgba(20, 20, 20, 180);"
-        "border: 1px solid rgba(0, 255, 0, 100);"
+    scrollStats = new QScrollArea(this);
+    scrollStats->setStyleSheet(
+        "QScrollArea {"
+        "   background-color: rgba(20, 20, 20, 180);"
+        "   border: 1px solid rgba(0, 255, 0, 100);"
+        "}"
+        "QScrollBar:vertical {"
+        "   background: rgba(20, 20, 20, 180);"
+        "   width: 8px;"
+        "}"
+        "QScrollBar::handle:vertical {"
+        "   background: rgba(0, 255, 0, 100);"
+        "   border-radius: 4px;"
+        "}"
     );
-    panneauStats->hide();
+    scrollStats->setWidgetResizable(true);
+    scrollStats->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    scrollStats->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollStats->hide();
 
-    labelStats = new QLabel(panneauStats);
+    labelStats = new QLabel();
     labelStats->setStyleSheet(
         "color: rgba(0, 255, 0, 200);"
         "font-family: 'Consolas', monospace;"
         "font-size: 12px;"
         "border: none;"
+        "padding: 8px;"
+        "background: transparent;"
     );
     labelStats->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     labelStats->setWordWrap(true);
+    scrollStats->setWidget(labelStats);
 
-    boutonAjouter = creerBouton("Ajouter pilote");
-    connect(boutonAjouter, &QPushButton::clicked, this, &ComptePilote::ajouterPilote);
-
-    boutonChoisir = creerBouton("Choisir ce pilote");
-    connect(boutonChoisir, &QPushButton::clicked, this, &ComptePilote::choisirPilote);
-
-    boutonVoirStats = creerBouton("Voir historique de vol");
-    connect(boutonVoirStats, &QPushButton::clicked, this, &ComptePilote::afficherStats);
-
-    boutonRetour = creerBouton("Retour au menu");
-    connect(boutonRetour, &QPushButton::clicked, this, [this]() {
-        emit demanderRetourMenu();
-        });
-
-    boutonFermerStats = new QPushButton("< Retour a la liste", panneauStats);
+    boutonFermerStats = new QPushButton("< Retour a la liste", this);
     boutonFermerStats->setStyleSheet(
         "QPushButton {"
         "   background-color: rgba(30, 30, 30, 150);"
@@ -109,10 +110,26 @@ ComptePilote::ComptePilote(QWidget* parent)
         "   color: #00FF00;"
         "}"
     );
+    boutonFermerStats->hide();
     connect(boutonFermerStats, &QPushButton::clicked, this, [this]() {
-        panneauStats->hide();
+        scrollStats->hide();
+        boutonFermerStats->hide();
         m_statsVisibles = false;
         boutonVoirStats->setText("Voir historique de vol");
+        });
+
+    boutonAjouter = creerBouton("Ajouter pilote");
+    connect(boutonAjouter, &QPushButton::clicked, this, &ComptePilote::ajouterPilote);
+
+    boutonChoisir = creerBouton("Choisir ce pilote");
+    connect(boutonChoisir, &QPushButton::clicked, this, &ComptePilote::choisirPilote);
+
+    boutonVoirStats = creerBouton("Voir historique de vol");
+    connect(boutonVoirStats, &QPushButton::clicked, this, &ComptePilote::afficherStats);
+
+    boutonRetour = creerBouton("Retour au menu");
+    connect(boutonRetour, &QPushButton::clicked, this, [this]() {
+        emit demanderRetourMenu();
         });
 }
 
@@ -136,7 +153,8 @@ void ComptePilote::choisirPilote() {
 
     m_piloteSelectionne = m_pilotes[index];
     mettreAJourLabel();
-    panneauStats->hide();
+    scrollStats->hide();
+    boutonFermerStats->hide();
     m_statsVisibles = false;
 
     emit piloteChoisi(m_piloteSelectionne);
@@ -153,17 +171,18 @@ void ComptePilote::afficherStats() {
     Pilote* p = m_pilotes[index];
 
     if (m_statsVisibles) {
-        panneauStats->hide();
+        scrollStats->hide();
+        boutonFermerStats->hide();
         m_statsVisibles = false;
         boutonVoirStats->setText("Voir historique de vol");
         return;
     }
 
     labelStats->setText(genererTexteStats(p));
-    labelStats->setGeometry(8, 40, panneauStats->width() - 16, panneauStats->height() - 56);
-    boutonFermerStats->setGeometry(8, 8, panneauStats->width() - 16, 30);
-    panneauStats->show();
-    panneauStats->raise();
+    scrollStats->show();
+    scrollStats->raise();
+    boutonFermerStats->show();
+    boutonFermerStats->raise();
     m_statsVisibles = true;
     boutonVoirStats->setText("Masquer historique");
 }
@@ -175,7 +194,17 @@ QString ComptePilote::genererTexteStats(Pilote* p) {
     QString texte = "=== HISTORIQUE DE VOL : " + p->getNom() + " ===\n\n";
     texte += "Nombre de vols : " + QString::number(p->getNbVols()) + "\n";
     texte += "Crashs : " + QString::number(p->getNbMorts()) + "\n";
-    texte += "Warnings totaux : " + QString::number(p->getNbWarningsTotal()) + "\n\n";
+
+    QSet<QString> warningsUniques = p->getTypesWarningsUniques();
+    if (warningsUniques.isEmpty()) {
+        texte += "Warnings : Aucun\n\n";
+    }
+    else {
+        texte += "Warnings rencontres :\n";
+        for (const QString& w : warningsUniques)
+            texte += "  - " + w + "\n";
+        texte += "\n";
+    }
 
     const QList<DonneesVol>& vols = p->getHistoriqueVols();
     for (int i = 0; i < vols.size(); ++i) {
@@ -183,10 +212,19 @@ QString ComptePilote::genererTexteStats(Pilote* p) {
         texte += "--- Vol #" + QString::number(i + 1) + " ---\n";
         texte += "Type : " + v.typeVol + "\n";
         texte += "Date : " + v.dateVol.toString("yyyy-MM-dd hh:mm") + "\n";
-        texte += "Warnings : " + QString::number(v.nbWarnings) + "\n";
         texte += "Crash : " + QString(v.estMort ? "OUI" : "NON") + "\n";
         texte += "Alt max : " + QString::number(v.altitudeMax, 'f', 1) + "\n";
-        texte += "Speed max : " + QString::number(v.speedMax, 'f', 1) + "\n\n";
+        texte += "Speed max : " + QString::number(v.speedMax, 'f', 1) + "\n";
+
+        if (v.typesWarnings.isEmpty()) {
+            texte += "Warnings : Aucun\n\n";
+        }
+        else {
+            texte += "Warnings :\n";
+            for (const QString& w : v.typesWarnings)
+                texte += "  - " + w + "\n";
+            texte += "\n";
+        }
     }
 
     return texte;
@@ -208,15 +246,8 @@ void ComptePilote::resizeEvent(QResizeEvent* event) {
     boutonChoisir->setGeometry(margeH, h * 0.60, largeur, 40);
     boutonVoirStats->setGeometry(margeH, h * 0.68, largeur, 40);
     boutonRetour->setGeometry(margeH, h * 0.85, largeur, 45);
-    panneauStats->setGeometry(margeH, h * 0.32, largeur, h * 0.50);
-
-    if (m_statsVisibles)
-        labelStats->setGeometry(8, 8, largeur - 16, h * 0.50 - 16);
-
-    if (m_statsVisibles) {
-        labelStats->setGeometry(8, 40, largeur - 16, h * 0.50 - 56);
-        boutonFermerStats->setGeometry(8, 8, largeur - 16, 30);
-    }
+    scrollStats->setGeometry(margeH, h * 0.32, largeur, h * 0.45);
+    boutonFermerStats->setGeometry(margeH, h * 0.79, largeur, 40);
 }
 
 QPushButton* ComptePilote::creerBouton(const QString& message) {

@@ -6,7 +6,6 @@
 
 SimulationCockpit::SimulationCockpit(QWidget* parent) : QWidget(parent)
 , m_piloteActif(nullptr)
-, m_nbWarnings(0)
 , m_altitudeMax(0.0)
 , m_speedMax(0.0)
 {
@@ -91,7 +90,7 @@ SimulationCockpit::SimulationCockpit(QWidget* parent) : QWidget(parent)
 
 void SimulationCockpit::setPiloteActif(Pilote* p) {
     m_piloteActif = p;
-    m_nbWarnings = 0;
+    m_typesWarnings.clear();
     m_altitudeMax = 0.0;
     m_speedMax = 0.0;
 }
@@ -101,7 +100,7 @@ void SimulationCockpit::terminerVol(bool estMort, const QString& typeVol) {
 
     DonneesVol vol;
     vol.typeVol = typeVol;
-    vol.nbWarnings = m_nbWarnings;
+    vol.typesWarnings = m_typesWarnings;
     vol.estMort = estMort;
     vol.dateVol = QDateTime::currentDateTime();
     vol.altitudeMax = m_altitudeMax;
@@ -116,23 +115,22 @@ void SimulationCockpit::messagesWarning() {
 
     if (p.getAltitude() <= 1000) {
         std::cout << "| ALTITUDE CRITICALLY LOW | -> Should be over 1000\n";
-        warningText += "| ALTITUDE CRITICALLY LOW | -> Should be over 1000\n";
-        m_nbWarnings++;
+        warningText += "| ALTITUDE CRITICALLY LOW |\n";
+        m_typesWarnings.insert("ALTITUDE CRITICALLY LOW");
     }
     if (p.getSpeed() <= 10) {
         std::cout << "| SPEED CRITICALLY LOW | -> Should be over 10\n";
-        warningText += "| SPEED CRITICALLY LOW | -> Should be over 10\n";
-        m_nbWarnings++;
+        warningText += "| SPEED CRITICALLY LOW |\n";
+        m_typesWarnings.insert("SPEED CRITICALLY LOW");
     }
     if (p.getFuel() <= 50) {
         std::cout << "| FUEL CRITICALLY LOW | -> Should be over 50\n";
-        warningText += "| FUEL CRITICALLY LOW | -> Should be over 50\n";
-        m_nbWarnings++;
+        warningText += "| FUEL CRITICALLY LOW |\n";
+        m_typesWarnings.insert("FUEL CRITICALLY LOW");
     }
 
     ecranText->setText(warningText);
 }
-
 void SimulationCockpit::messagesMorts() {
     if (sim.getAvion().getAltitude() <= 0) {
         std::cout << "| CRASH | -> Hit the ground\n";
@@ -144,7 +142,7 @@ void SimulationCockpit::messagesMorts() {
 }
 
 void SimulationCockpit::demarrer() {
-    m_nbWarnings = 0;
+    m_typesWarnings.clear();
     m_altitudeMax = 0.0;
     m_speedMax = 0.0;
 

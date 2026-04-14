@@ -36,7 +36,7 @@ private:
     QTimer* timerDonnees;
     QQuickWidget* view3d;
     Pilote* m_piloteActif;
-    int m_nbWarnings;
+    QSet<QString> m_typesWarnings;
     double m_altitudeMax;
     double m_speedMax;
     void setupIndicateurs();

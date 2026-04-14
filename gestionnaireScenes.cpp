@@ -56,12 +56,10 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent)
         });
 
     connect(m_simulationVol, &Simulation::demanderRetourMenu, this, [this]() {
-        m_simulationVol->terminerVol(false, "Vol standard");
         afficherMenu();
         });
 
     connect(m_simulationCockpit, &SimulationCockpit::demanderRetourMenu, this, [this]() {
-        m_simulationCockpit->terminerVol(false, "Vol cockpit");
         afficherMenu();
         });
 

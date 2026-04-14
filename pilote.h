@@ -3,11 +3,12 @@
 
 #include <QString>
 #include <QList>
+#include <QSet>
 #include <QDateTime>
 
 struct DonneesVol {
     QString typeVol;
-    int nbWarnings;
+    QSet<QString> typesWarnings;
     bool estMort;
     QDateTime dateVol;
     double altitudeMax;
@@ -24,7 +25,7 @@ public:
     QList<DonneesVol> getHistoriqueVols() const;
     int getNbVols() const;
     int getNbMorts() const;
-    int getNbWarningsTotal() const;
+    QSet<QString> getTypesWarningsUniques() const;
 
 private:
     QString m_nom;
