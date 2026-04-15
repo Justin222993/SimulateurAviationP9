@@ -54,6 +54,7 @@ ComptePilote::ComptePilote(QWidget* parent)
         "   font-family: 'Consolas', monospace;"
         "   font-size: 14px;"
         "   letter-spacing: 2px;"
+        "   outline: none;"
         "}"
         "QListWidget::item:selected {"
         "   background-color: rgba(0, 255, 0, 60);"
