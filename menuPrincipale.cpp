@@ -72,6 +72,7 @@ MenuPrincipale::MenuPrincipale(QWidget* parent) : QWidget(parent)
     titre->raise();
 }
 
+// label pour montrer le pilote en bas milieu de la page
 void MenuPrincipale::setPiloteActif(const QString& nom) {
     if (nom.isEmpty()) {
         labelPiloteActif->setText("Aucun pilote selectionne");
@@ -93,6 +94,7 @@ void MenuPrincipale::setPiloteActif(const QString& nom) {
     }
 }
 
+// Bouge les bouttons/titre/compte actif par rapport a la taille
 void MenuPrincipale::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
@@ -185,7 +187,7 @@ void MenuPrincipale::resizeEvent(QResizeEvent* event)
     if (labelPiloteActif) {
         int lblW = 300 + sizeScaling;
         int x = (this->width() - lblW) / 2;
-        int y = this->height() * 0.93;
+        int y = this->height() * 0.95;
         labelPiloteActif->setGeometry(x, y, lblW, 30);
     }
 }

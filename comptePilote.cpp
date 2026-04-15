@@ -8,6 +8,7 @@ ComptePilote::ComptePilote(QWidget* parent)
 {
     Transitions::apparition(this, 1000);
 
+    // Titre
     labelTitre = new QLabel("Comptes Pilotes", this);
     labelTitre->setStyleSheet(
         "color: rgba(0, 255, 0, 200);"
@@ -17,6 +18,7 @@ ComptePilote::ComptePilote(QWidget* parent)
     );
     labelTitre->setAlignment(Qt::AlignCenter);
 
+    // Label du pilote actif
     labelPiloteActif = new QLabel("Aucun pilote selectionne", this);
     labelPiloteActif->setStyleSheet(
         "color: rgba(0, 200, 0, 150);"
@@ -26,6 +28,7 @@ ComptePilote::ComptePilote(QWidget* parent)
     );
     labelPiloteActif->setAlignment(Qt::AlignCenter);
 
+    // Champ pour entrer un nom
     champNom = new QLineEdit(this);
     champNom->setPlaceholderText("Nom du pilote...");
     champNom->setStyleSheet(
@@ -41,6 +44,7 @@ ComptePilote::ComptePilote(QWidget* parent)
         "}"
     );
 
+    // Liste des pilotes
     listePilotes = new QListWidget(this);
     listePilotes->setStyleSheet(
         "QListWidget {"
@@ -60,10 +64,11 @@ ComptePilote::ComptePilote(QWidget* parent)
         "}"
     );
 
+    // Zone scrollable pour les statistiques
     scrollStats = new QScrollArea(this);
     scrollStats->setStyleSheet(
         "QScrollArea {"
-        "   background-color: rgba(20, 20, 20, 180);"
+        "   background-color: rgba(20, 20, 20, 255);"
         "   border: 1px solid rgba(0, 255, 0, 100);"
         "}"
         "QScrollBar:vertical {"
@@ -84,7 +89,7 @@ ComptePilote::ComptePilote(QWidget* parent)
     labelStats->setStyleSheet(
         "color: rgba(0, 255, 0, 200);"
         "font-family: 'Consolas', monospace;"
-        "font-size: 12px;"
+        "font-size: 16px;"
         "border: none;"
         "padding: 8px;"
         "background: transparent;"
@@ -96,6 +101,7 @@ ComptePilote::ComptePilote(QWidget* parent)
     labelStats->setTextInteractionFlags(Qt::TextSelectableByMouse);
     scrollStats->setWidget(labelStats);
 
+    // Bouton pour fermer les statistiques
     boutonFermerStats = new QPushButton("< Retour a la liste", this);
     boutonFermerStats->setStyleSheet(
         "QPushButton {"
@@ -121,15 +127,21 @@ ComptePilote::ComptePilote(QWidget* parent)
         boutonVoirStats->setText("Voir historique de vol");
         });
 
+    // Boutons principaux et actions connecter
+
+    // Ajoute le pilote qui a ete inscrit dans la zone de texte
     boutonAjouter = creerBouton("Ajouter pilote");
     connect(boutonAjouter, &QPushButton::clicked, this, &ComptePilote::ajouterPilote);
 
+    // log in en tant que ce pilote, avec lequel les statistiques de vols seront attribues
     boutonChoisir = creerBouton("Choisir ce pilote");
     connect(boutonChoisir, &QPushButton::clicked, this, &ComptePilote::choisirPilote);
 
+    // montre les statistiques de vols pour le compte selectionner dans la scroll bar (Pas le pilote actif)
     boutonVoirStats = creerBouton("Voir historique de vol");
     connect(boutonVoirStats, &QPushButton::clicked, this, &ComptePilote::afficherStats);
 
+    // Retourne au menu
     boutonRetour = creerBouton("Retour au menu");
     connect(boutonRetour, &QPushButton::clicked, this, [this]() {
         emit demanderRetourMenu();
@@ -140,6 +152,7 @@ Pilote* ComptePilote::getPiloteSelectionne() const {
     return m_piloteSelectionne;
 }
 
+// Ajoute un pilote (truncated)
 void ComptePilote::ajouterPilote() {
     QString nom = champNom->text().trimmed();
     if (nom.isEmpty()) return;
@@ -150,6 +163,7 @@ void ComptePilote::ajouterPilote() {
     champNom->clear();
 }
 
+// selectionne le pilote pour lui attribue les stats de vol
 void ComptePilote::choisirPilote() {
     int index = listePilotes->currentRow();
     if (index < 0 || index >= m_pilotes.size()) return;
@@ -163,11 +177,13 @@ void ComptePilote::choisirPilote() {
     emit piloteChoisi(m_piloteSelectionne);
 }
 
+// Update le nom du pilote actif
 void ComptePilote::mettreAJourLabel() {
     if (m_piloteSelectionne)
         labelPiloteActif->setText("Pilote actif: " + m_piloteSelectionne->getNom());
 }
 
+// Affiche un panel au dessus de la page qui montre tous les statistiques pris en compte
 void ComptePilote::afficherStats() {
     int index = listePilotes->currentRow();
     if (index < 0 || index >= m_pilotes.size()) return;
@@ -192,9 +208,11 @@ void ComptePilote::afficherStats() {
     boutonVoirStats->setText("Masquer historique");
 }
 
+
+// ToString les infos des vols precedents
 QString ComptePilote::genererTexteStats(Pilote* p) {
     if (p->getNbVols() == 0)
-        return "Aucun vol enregistre pour ce pilote.";
+        return "Aucun vol enregistre pour ce pilote. (" + p->getNom() + ")";
 
     QString texte = "=== HISTORIQUE DE VOL : " + p->getNom() + " ===\n\n";
     texte += "Nombre de vols : " + QString::number(p->getNbVols()) + "\n";
@@ -218,8 +236,8 @@ QString ComptePilote::genererTexteStats(Pilote* p) {
         texte += "Type : " + v.typeVol + "\n";
         texte += "Date : " + v.dateVol.toString("yyyy-MM-dd hh:mm") + "\n";
         texte += "Crash : " + QString(v.estMort ? "OUI" : "NON") + "\n";
-        texte += "Alt max : " + QString::number(v.altitudeMax, 'f', 1) + "\n";
-        texte += "Speed max : " + QString::number(v.speedMax, 'f', 1) + "\n";
+        texte += "Altitude max : " + QString::number(v.altitudeMax, 'f', 1) + "\n";
+        texte += "Vitesse max : " + QString::number(v.speedMax, 'f', 1) + "\n";
 
         if (v.typesWarnings.isEmpty()) {
             texte += "Warnings : Aucun\n\n";
@@ -235,6 +253,7 @@ QString ComptePilote::genererTexteStats(Pilote* p) {
     return texte;
 }
 
+// resize tous les boutons quand la taille de la page change
 void ComptePilote::resizeEvent(QResizeEvent* event) {
     QWidget::resizeEvent(event);
     int w = event->size().width();
@@ -250,13 +269,14 @@ void ComptePilote::resizeEvent(QResizeEvent* event) {
     listePilotes->setGeometry(margeH, h * 0.32, largeur, h * 0.25);
     boutonChoisir->setGeometry(margeH, h * 0.60, largeur, 40);
     boutonVoirStats->setGeometry(margeH, h * 0.68, largeur, 40);
-    boutonRetour->setGeometry(margeH, h * 0.85, largeur, 45);
-    scrollStats->setGeometry(margeH, h * 0.32, largeur, h * 0.45);
+    boutonRetour->setGeometry(margeH, h * 0.90, largeur, 45);
+    scrollStats->setGeometry(margeH, h * 0.22, largeur, h * 0.55);
     if (labelStats)
         labelStats->setMinimumWidth(scrollStats->width() - 20);
     boutonFermerStats->setGeometry(margeH, h * 0.79, largeur, 40);
 }
 
+// Fonction pour faciliter la creation et l'uniformiter des boutons
 QPushButton* ComptePilote::creerBouton(const QString& message) {
     QPushButton* le_bouton = new QPushButton(message, this);
     le_bouton->raise();

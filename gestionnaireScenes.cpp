@@ -10,26 +10,25 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent)
 
     m_stack = new QStackedWidget(m_container);
 
-    // Initialisation des scènes
+    // Initialisation des scènes, appel le constructor de chacun
     m_menu = new MenuPrincipale();
     m_simulationVol = new Simulation();
     m_simulationCockpit = new SimulationCockpit();
     m_comptePilote = new ComptePilote();
 
-    // Ajout à la pile
+    // Ajout à la pile de pages
     m_stack->addWidget(m_menu);
     m_stack->addWidget(m_simulationVol);
     m_stack->addWidget(m_simulationCockpit);
     m_stack->addWidget(m_comptePilote);
 
-    this->resize(800, 450);
-
-    this->setMinimumSize(800, 450);
-    this->setMaximumSize(1920, 1080);
+    // size suivant le ratio 16/9
+    this->resize(1000, 562);
+    this->setMinimumSize(1000, 562);
 
     this->setWindowFlags(Qt::Window | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint);
 
-    // On écoute le signal du menu pour changer de scène
+    // On écoute le signal du menu pour changer de scène avec les clicks de boutons
     connect(m_menu, &MenuPrincipale::demanderSimulationVol,
         this, &GestionnaireScenes::afficherSimulationVol);
 
@@ -42,8 +41,12 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent)
     connect(m_comptePilote, &ComptePilote::demanderRetourMenu,
         this, &GestionnaireScenes::afficherMenu);
 
+    connect(m_menu, &MenuPrincipale::demanderComptePilote,
+        this, &GestionnaireScenes::afficherComptePilote);
+
     m_piloteActif = nullptr;
 
+    // Connection des signaux de la page de compte
     connect(m_comptePilote, &ComptePilote::piloteChoisi, this, [this](Pilote* p) {
         m_piloteActif = p;
         std::cout << "Pilote actif: " << p->getNom().toStdString() << std::endl;
@@ -55,17 +58,6 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent)
         m_simulationCockpit->setPiloteActif(p);
         });
 
-    connect(m_simulationVol, &Simulation::demanderRetourMenu, this, [this]() {
-        afficherMenu();
-        });
-
-    connect(m_simulationCockpit, &SimulationCockpit::demanderRetourMenu, this, [this]() {
-        afficherMenu();
-        });
-
-    connect(m_menu, &MenuPrincipale::demanderComptePilote,
-        this, &GestionnaireScenes::afficherComptePilote);
-
     connect(m_comptePilote, &ComptePilote::demanderRetourMenu,
         this, &GestionnaireScenes::afficherMenu);
 
@@ -75,31 +67,45 @@ GestionnaireScenes::GestionnaireScenes(QWidget* parent)
         m_simulationCockpit->setPiloteActif(p);
         m_menu->setPiloteActif(p->getNom());
         });
+
+    // Connection des signaux de la simulation en ville
+    connect(m_simulationVol, &Simulation::demanderRetourMenu, this, [this]() {
+        afficherMenu();
+        });
+
+    // Connection des signaux de la simulation cockpit
+    connect(m_simulationCockpit, &SimulationCockpit::demanderRetourMenu, this, [this]() {
+        afficherMenu();
+        });
 }
 
+// Montre le menu
 void GestionnaireScenes::afficherMenu()
 {
     m_stack->setCurrentWidget(m_menu);
 }
 
+// Montre la ville et commence la simulation
 void GestionnaireScenes::afficherSimulationVol()
 {
     m_stack->setCurrentWidget(m_simulationVol);
     m_simulationVol->demarrer();
 }
 
+// Montre le cockpit et commence la simulation
 void GestionnaireScenes::afficherSimulationCockpit()
 {
     m_stack->setCurrentWidget(m_simulationCockpit);
     m_simulationCockpit->demarrer();
 }
 
+// Affiche la page d'ajout et selection du pilote
 void GestionnaireScenes::afficherComptePilote()
 {
     m_stack->setCurrentWidget(m_comptePilote);
 }
 
-// Pour garder le ratio 16/9 de l'ecran, mais des bordures autour du container si la size match pas
+// Pour garder le ratio 16/9 de l'ecran, mets des bordures autour du container si la size match pas
 void GestionnaireScenes::resizeEvent(QResizeEvent* event)
 {
     QSize s = event->size();

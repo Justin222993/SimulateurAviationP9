@@ -26,6 +26,7 @@ private:
     QWidget* m_container;
     QStackedWidget* m_stack;
 
+    // scenes
     MenuPrincipale* m_menu;
     Simulation* m_simulationVol;
     SimulationCockpit* m_simulationCockpit;
