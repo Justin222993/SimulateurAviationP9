@@ -21,21 +21,21 @@ MenuPrincipale::MenuPrincipale(QWidget* parent) : QWidget(parent)
 
 
     // Bouttons
-    boutonCommencerVol = creerBouton("Demarrer les moteurs");
+    boutonCommencerVol = creerBouton("Demarrer la simulation\n a vue exterieur");
 
     connect(boutonCommencerVol, &QPushButton::clicked, this, [this]() {
         std::cout << "Lancement de la simulation..." << std::endl;
         emit demanderSimulationVol();
     });
 
-    boutonCommencerCockpit = creerBouton("Vol Cockpit");
+    boutonCommencerCockpit = creerBouton("Demarrer la simulation\n Cockpit");
 
     connect(boutonCommencerCockpit, &QPushButton::clicked, this, [this]() {
         std::cout << "Lancement de la simulation..." << std::endl;
         emit demanderSimulationCockpit();
         });
 
-    boutonQuitter = creerBouton("Quitter le cockpit");
+    boutonQuitter = creerBouton("Quitter l'application");
 
     connect(boutonQuitter, &QPushButton::clicked, this, [this]() {
         std::cout << "Vous avez quitter l'application par le bouton" << std::endl;
@@ -47,7 +47,7 @@ MenuPrincipale::MenuPrincipale(QWidget* parent) : QWidget(parent)
         });
     });
 
-    boutonComptePilote = creerBouton("Compte Pilote");
+    boutonComptePilote = creerBouton("Comptes Pilotes");
 
     connect(boutonComptePilote, &QPushButton::clicked, this, [this]() {
         std::cout << "Ouverture du compte pilote..." << std::endl;
