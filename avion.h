@@ -103,6 +103,7 @@ class Avion {
 		double getYaw(){ return (yaw * 180.0 / 3.14159265358979323846); }
 		double getRoll(){ return roll; }
 		double getFuel(){ return fuel; }
+		double getUnitMotorStrenght() { return unitMotorStrenght; }
 
 	private:
 		float motorStrenght = 100;

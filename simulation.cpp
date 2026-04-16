@@ -95,6 +95,7 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent)
             << "Master Switch: " << std::setw(7) << (sim.getSerialManager()->GetMasterSwitch() ? "ON" : "OFF")
             << "Encoder: " << std::setw(7) << sim.getSerialManager()->GetEncoder()
             << "Accel Bump: " << std::setw(7) << (sim.getSerialManager()->GetAccelBump() ? "YES" : "NO")
+            << "Muons: " << std::setw(7) << sim.getSerialManager()->GetMuons()
             << "\n";
 
         messagesWarning();
@@ -113,6 +114,8 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent)
             QRandomGenerator::global()->bounded(-50, 51),
             QRandomGenerator::global()->bounded(-50, 51));
         sim.setAngleInstrument(SimulationIndicateurs::Horizon, 1, horizonAngle);
+        
+	
         });
 }
 

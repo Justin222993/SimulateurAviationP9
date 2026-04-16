@@ -33,7 +33,7 @@
 #endif // !NormalPlaneSpeedStraight
 
 #ifndef StartFuel
-#define StartFuel 10000.0
+#define StartFuel 100000.0
 #endif // !StartFuel
 
 #ifndef ConsumptionMaxMotorSecond
@@ -228,7 +228,10 @@ void Avion::calculateNewPosition()
 	// =========================================================
 	// ENGINE / FUEL
 	// =========================================================
-	motorStrenght = Lerp(motorStrenght, inputMotorStrenght, dt);
+	if(fuel <= 0) {
+		inputMotorStrenght = 0;
+	}
+	motorStrenght = Lerp(motorStrenght, inputMotorStrenght, dt/10);
 
 	double fuelFactor = Clamp(0.0, 2.0, motorStrenght / 1023.0);
 	unitMotorStrenght = motorStrenght / 1023.0;
@@ -261,7 +264,7 @@ void Avion::calculateNewPosition()
 	double lift = currentSpeed > 50 ? 10 : (currentSpeed / 50.0)*10;
 	double gravity = g; // make it positive
 
-	double accelerationZ = lift - gravity;
+	double accelerationZ = lift - gravity ;
 	verticalSpeed += accelerationZ * dt ;
 	verticalSpeed = Clamp(-50.0, 0.0, verticalSpeed);
 

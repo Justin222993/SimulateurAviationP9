@@ -206,7 +206,7 @@ void SimulationCockpit::demarrer() {
     t2.detach();
 
     timerAnimation->start(16);
-    timerDonnees->start(25);
+    timerDonnees->start(4);
 }
 
 void SimulationCockpit::resizeEvent(QResizeEvent* event) {

@@ -74,7 +74,7 @@ void SimulationIndicateurs::handleTachymetre() {
     if (speed < 0)   speed = 0;
     if (speed > 200) speed = 200;
 
-    double rpm = (speed / 200.0) * 3500.0;
+    double rpm = p.getUnitMotorStrenght() * 3500.0;
 
     std::vector<PointValeur> pointsReference = {
         {0.0,    -225.0}, {500.0,  -186.4}, {1000.0, -147.9},
@@ -120,8 +120,8 @@ void SimulationIndicateurs::inputListener(Avion& p) {
             else if (input == 's') p.downPitch(2);
             else if (input == 'a') p.rollLeft(3);
             else if (input == 'd') p.rollRight(3);
-            else if (input == 'p') { if (!p.upSpeed(5)) std::cout << "| NO FUEL !!!!! |"; }
-            else if (input == 'l') p.downSpeed(5);
+            else if (input == 'p') { if (!p.upMotorStrenght(5)) std::cout << "| NO FUEL !!!!! |"; }
+            else if (input == 'l') p.downMotorStrenght(5);
             else if (input == '1') updateLight(1, 1);
             else if (input == '2') updateLight(2, 1);
             else if (input == '3') updateLight(3, 1);
