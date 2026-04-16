@@ -1,15 +1,15 @@
 #include "SerialManager.h"
 #include "SerialConnectionGateway.h"
 
-SerialManager::SerialManager() : 
-	joystickInfo{0, 0}, 
-	potentiometerValue(0), 
-	masterSwitchState(false), 
+SerialManager::SerialManager() :
+	joystickInfo{ 0, 0 },
+	potentiometerValue(0),
+	masterSwitchState(false),
 	encoderValue(0),
 	cur_accel_bump(false)
 {
 
-
+	returnData = { 0,0,true };
 	NetworkInit();
 
 }
@@ -63,6 +63,16 @@ int SerialManager::GetAccelBump()
 {
 	return cur_accel_bump;
 }
+void SerialManager::SetMuons(long muons)
+{
+	this->muons = muons;
+}
+
+long SerialManager::GetMuons()
+{
+	return muons;
+}
+
 void SerialManager::SetReturnData(int vitesse, int altitude, bool redLed)
 {
 	returnData.vitesse = vitesse;
@@ -74,6 +84,6 @@ ReturnData SerialManager::GetReturnData()
 	return returnData;
 }
 bool SerialManager::ArduinoIsConnected() {
-	return NetworkIsConnected();
+	return true;
 }
 

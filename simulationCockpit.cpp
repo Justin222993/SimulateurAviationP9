@@ -196,7 +196,7 @@ void SimulationCockpit::demarrer() {
     m_altitudeMax = 0.0;
     m_speedMax = 0.0;
 
-    sim.creerAvion(40.0, 3000.0, 0.0, 0.0, 0.0, 30.0, 0.0, 1000.0);
+    sim.creerAvion(40.0, 3000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000.0);
     sim.setIndicateurs(listeIndicateurs, SimulationIndicateurs::NB_INSTRUMENTS);
 
     Avion& p = sim.getAvion();
@@ -206,7 +206,7 @@ void SimulationCockpit::demarrer() {
     t2.detach();
 
     timerAnimation->start(16);
-    timerDonnees->start(25);
+    timerDonnees->start(4);
 }
 
 void SimulationCockpit::resizeEvent(QResizeEvent* event) {

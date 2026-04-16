@@ -17,8 +17,8 @@ Item {
     property real targetPitch: 0
     property real targetRoll: 0
 
-    Behavior on targetPitch { NumberAnimation { duration: 1000; easing.type: Easing.OutCubic } }
-    Behavior on targetRoll  { NumberAnimation { duration: 1000; easing.type: Easing.OutCubic } }
+    //Behavior on targetPitch { NumberAnimation { duration: 1000; easing.type: Easing.OutCubic } }
+    //Behavior on targetRoll  { NumberAnimation { duration: 1000; easing.type: Easing.OutCubic } }
 
     function updateCamera(data) {
         if (activeCamera) {
