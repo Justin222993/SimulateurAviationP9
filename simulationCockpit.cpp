@@ -276,8 +276,12 @@ void SimulationCockpit::setupIndicateurs() {
     listeIndicateurs[SimulationIndicateurs::Tachymetre].append(
         new IndicateurComponent(this, "ressources/simulateur/aiguille.png", 0.6f, 1.5f));
 
-    listeIndicateurs[SimulationIndicateurs::Boussole].append(
-        new IndicateurComponent(this, "ressources/simulateur/ruban-points-cardinaux.png", 1.0f, 2.0f, 0, 0));
+    auto* ruban = new IndicateurComponent(this, "ressources/simulateur/ruban-points-cardinaux.png", 1.0f, 2.0f, 0, 0);
+    ruban->setEstRuban(true);
     listeIndicateurs[SimulationIndicateurs::Boussole].append(
         new IndicateurComponent(this, "ressources/simulateur/boussole2.png", 1.0f, 2.0f, 0, 0));
+    listeIndicateurs[SimulationIndicateurs::Boussole].append(ruban);
+    instruments[SimulationIndicateurs::Boussole]->setPixmap(
+        QPixmap("ressources/simulateur/boussole2.png"));
+
 }

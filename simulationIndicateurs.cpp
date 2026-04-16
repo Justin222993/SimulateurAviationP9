@@ -108,8 +108,11 @@ void SimulationIndicateurs::handleBoussole() {
     while (cap >= 360.0) cap -= 360.0;
     while (cap < 0.0)    cap += 360.0;
 
-    double offsetX = -(cap * 2.5);
-    setPosition(Boussole, 0, offsetX, 0);
+   
+    double pixelsParDegre = 1820.0 / 720.0; 
+    double offsetX = cap * pixelsParDegre;
+
+    setPosition(Boussole, 1, offsetX, 0);
 }
 
 void SimulationIndicateurs::inputListener(Avion& p) {
