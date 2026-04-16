@@ -112,6 +112,44 @@ void SimulationIndicateurs::handleBoussole() {
     setPosition(Boussole, 0, offsetX, 0);
 }
 
+void SimulationIndicateurs::handleAltimetre() {
+    double altitude = p.getAltitude();
+    if (altitude < 0) altitude = 0;
+    if (altitude > 10000) altitude = 10000;
+    double finalAngle = (altitude / 10000.0) * 360.0;
+    setAngleInstrument(Altimetre, 1, finalAngle);
+	setAngleInstrument(Altimetre, 0, finalAngle * 10.0);
+}
+
+void SimulationIndicateurs::handleVariometre() {
+    double verticalSpeed = p.getVerticalSpeed()/2.5;
+    if (verticalSpeed < -20) verticalSpeed = -20;
+    if (verticalSpeed > 20) verticalSpeed = 20;
+    double finalAngle = (verticalSpeed / 20.0) * 180.0;
+    finalAngle += 270;
+    setAngleInstrument(Variometre, 0, finalAngle);
+}
+void SimulationIndicateurs::handleHorizon() {
+    //200
+
+    /*
+    double horizonAngle = QRandomGenerator::global()->bounded(-50, 51);
+        sim.setAngleInstrument(SimulationIndicateurs::Horizon, 0, horizonAngle);
+        sim.setPosition(SimulationIndicateurs::Horizon, 0,
+            QRandomGenerator::global()->bounded(-50, 51),
+            QRandomGenerator::global()->bounded(-50, 51));
+        sim.setAngleInstrument(SimulationIndicateurs::Horizon, 1, horizonAngle);
+    
+    */
+	double horizonAngle = p.getRoll();
+    double pitch = p.getPitch();
+    double movement = pitch * 600 / 90;
+
+    setPosition(Horizon, 0, 0, -movement);
+    setAngleInstrument(SimulationIndicateurs::Horizon, 0, -horizonAngle);
+    setAngleInstrument(SimulationIndicateurs::Horizon, 1, -horizonAngle);
+    
+}
 void SimulationIndicateurs::inputListener(Avion& p) {
     while (true) {
         if (_kbhit()) {

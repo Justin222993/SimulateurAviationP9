@@ -269,6 +269,8 @@ void Avion::calculateNewPosition()
 	verticalSpeed = Clamp(-50.0, 0.0, verticalSpeed);
 
 	positionZ += verticalSpeed * dt;
-
+	
 	positionZ += cos(yaw)*sin(pitchRad) * currentSpeed * airDensityFactor * dt;
+	//divide 60 cause 1 minute
+	verticalMovement = (verticalSpeed + cos(yaw) * sin(pitchRad) * currentSpeed * airDensityFactor);
 }

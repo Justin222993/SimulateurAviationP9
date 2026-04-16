@@ -41,6 +41,9 @@ public:
     void handleAnemometre();
     void handleTachymetre();
     void handleBoussole();
+	void handleAltimetre();
+	void handleVariometre();
+    void handleHorizon();
 
     void setAngleInstrument(int indexInstrument, int indexIndicateur, double angle);
     void setPosition(int indexInstrument, int indexIndicateur, double positionX, double positionY);
