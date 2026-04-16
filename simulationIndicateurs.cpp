@@ -122,10 +122,35 @@ void SimulationIndicateurs::inputListener(Avion& p) {
             else if (input == 'd') p.rollRight(3);
             else if (input == 'p') { if (!p.upSpeed(5)) std::cout << "| NO FUEL !!!!! |"; }
             else if (input == 'l') p.downSpeed(5);
+            else if (input == '1') updateLight(1, 1);
+            else if (input == '2') updateLight(2, 1);
+            else if (input == '3') updateLight(3, 1);
+            else if (input == '4') updateLight(4, 1);
+            else if (input == '5') updateLight(1, 0);
+            else if (input == '6') updateLight(2, 0);
+            else if (input == '7') updateLight(3, 0);
+            else if (input == '8') updateLight(4, 0);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
+
+void SimulationIndicateurs::updateLight(int lightNumber, bool state) {
+
+    if (lightNumber == 1) {
+        SimulationIndicateurs::light1 = state;
+    }
+    else if(lightNumber == 2) {
+        SimulationIndicateurs::light2 = state;
+    }
+    else if (lightNumber == 3) {
+        SimulationIndicateurs::light3 = state;
+    }
+    else if (lightNumber == 4) {
+        SimulationIndicateurs::light4 = state;
+    }
+}
+
 
 void SimulationIndicateurs::inputArduinoHandler(Avion& p) {
     while (true) {

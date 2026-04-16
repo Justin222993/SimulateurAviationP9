@@ -51,6 +51,13 @@ public:
     Avion& getAvion() { return p; }
     SerialManager* getSerialManager() { return serialManager; }
 
+    inline static bool light1 = false;
+    inline static bool light2 = false;
+    inline static bool light3 = false;
+    inline static bool light4 = false;
+
+    void updateLight(int lightNumber, bool state);
+
 private:
     Avion p;
     SerialManager* serialManager = nullptr;

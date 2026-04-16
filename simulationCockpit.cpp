@@ -77,6 +77,19 @@ SimulationCockpit::SimulationCockpit(QWidget* parent) : QWidget(parent)
         if (p.getAltitude() > m_altitudeMax) m_altitudeMax = p.getAltitude();
         if (p.getSpeed() > m_speedMax) m_speedMax = p.getSpeed();
 
+        if (view3d && view3d->rootObject()) {
+            QVariantMap data;
+            data["light1"] = SimulationIndicateurs::light1;
+            data["light2"] = SimulationIndicateurs::light2;
+            data["light3"] = SimulationIndicateurs::light3;
+            data["light4"] = SimulationIndicateurs::light4;
+
+            QMetaObject::invokeMethod(static_cast<QObject*>(view3d->rootObject()),
+                "updateLights",
+                Qt::AutoConnection,
+                Q_ARG(QVariant, QVariant::fromValue(data)));
+        }
+
         std::cout << "\033[H\033[J";
         std::cout << std::fixed << std::setprecision(2) << std::left
             << "Speed: " << std::setw(8) << p.getSpeed()
@@ -124,6 +137,12 @@ void SimulationCockpit::setPiloteActif(Pilote* p) {
 }
 
 void SimulationCockpit::terminerVol(bool estMort, const QString& typeVol) {
+
+    SimulationIndicateurs::light1 = false;
+    SimulationIndicateurs::light2 = false;
+    SimulationIndicateurs::light3 = false;
+    SimulationIndicateurs::light4 = false;
+
     if (!m_piloteActif) return;
 
     DonneesVol vol;
@@ -144,16 +163,19 @@ void SimulationCockpit::messagesWarning() {
     if (p.getAltitude() <= 1000) {
         std::cout << "| ALTITUDE CRITICALLY LOW | -> Should be over 1000\n";
         warningText += "| ALTITUDE CRITICALLY LOW |\n";
+        SimulationIndicateurs::light4 = true;
         m_typesWarnings.insert("ALTITUDE CRITICALLY LOW");
     }
     if (p.getSpeed() <= 10) {
         std::cout << "| SPEED CRITICALLY LOW | -> Should be over 10\n";
         warningText += "| SPEED CRITICALLY LOW |\n";
+        SimulationIndicateurs::light2 = true;
         m_typesWarnings.insert("SPEED CRITICALLY LOW");
     }
     if (p.getFuel() <= 50) {
         std::cout << "| FUEL CRITICALLY LOW | -> Should be over 50\n";
         warningText += "| FUEL CRITICALLY LOW |\n";
+        SimulationIndicateurs::light3 = true;
         m_typesWarnings.insert("FUEL CRITICALLY LOW");
     }
 
