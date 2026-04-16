@@ -84,6 +84,6 @@ ReturnData SerialManager::GetReturnData()
 	return returnData;
 }
 bool SerialManager::ArduinoIsConnected() {
-	return true;
+	return NetworkIsConnected();
 }
 
