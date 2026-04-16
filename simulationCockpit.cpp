@@ -117,15 +117,21 @@ SimulationCockpit::SimulationCockpit(QWidget* parent) : QWidget(parent)
         sim.handleTachymetre();
         sim.handleBoussole();
         sim.handleCap();
+        sim.handleAltimetre();
+        sim.handleVariometre();
+        sim.handleHorizon();
 
         sim.setAngleInstrument(SimulationIndicateurs::Virage, 0, p.getRoll());
 
-        double horizonAngle = QRandomGenerator::global()->bounded(-50, 51);
+        /*
+    double horizonAngle = QRandomGenerator::global()->bounded(-50, 51);
         sim.setAngleInstrument(SimulationIndicateurs::Horizon, 0, horizonAngle);
         sim.setPosition(SimulationIndicateurs::Horizon, 0,
             QRandomGenerator::global()->bounded(-50, 51),
             QRandomGenerator::global()->bounded(-50, 51));
         sim.setAngleInstrument(SimulationIndicateurs::Horizon, 1, horizonAngle);
+
+    */
         });
 }
 

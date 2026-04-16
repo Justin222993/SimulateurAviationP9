@@ -104,6 +104,7 @@ class Avion {
 		double getRoll(){ return roll; }
 		double getFuel(){ return fuel; }
 		double getUnitMotorStrenght() { return unitMotorStrenght; }
+		double getVerticalSpeed() { return verticalMovement; }
 
 	private:
 		float motorStrenght = 100;
@@ -126,6 +127,8 @@ class Avion {
 		double positionZ;
 
 		float fuel;
+		
+		double verticalMovement;
 
 };
 
