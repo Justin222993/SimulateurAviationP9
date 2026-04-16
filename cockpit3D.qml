@@ -25,6 +25,21 @@ Item {
         }
     }
 
+function updateLights(data) {
+        if (data.light1 !== undefined) {
+            rootItem.setLight(light1, rootItem.mat1, data.light1 ? 100 : 0)
+        }
+        if (data.light2 !== undefined) {
+            rootItem.setLight(light2, rootItem.mat2, data.light2 ? 100 : 0)
+        }
+        if (data.light3 !== undefined) {
+            rootItem.setLight(light3, rootItem.mat3, data.light3 ? 100 : 0)
+        }
+        if (data.light4 !== undefined) {
+            rootItem.setLight(light4, rootItem.mat4, data.light4 ? 100 : 0)
+        }
+    }
+
     View3D {
         id: view
         anchors.fill: parent
