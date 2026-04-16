@@ -173,7 +173,7 @@ void Simulation::demarrer() {
     double startX = 0.0;
     double startY = 0.0;
     double initialPitch = 0.0;
-    double initialYaw = 30.0;
+    double initialYaw = 0.0;
     double initialRoll = 0.0;
     double inititalFuel = 1000;
 

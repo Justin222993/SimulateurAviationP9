@@ -120,10 +120,11 @@ void SimulationIndicateurs::inputListener(Avion& p) {
             else if (input == 's') p.downPitch(2);
             else if (input == 'a') p.rollLeft(3);
             else if (input == 'd') p.rollRight(3);
-            else if (input == 'p') { if (!p.upSpeed(5)) std::cout << "| NO FUEL !!!!! |"; }
-            else if (input == 'l') p.downSpeed(5);
+            else if (input == 'p') { if (!p.upMotorStrenght(5)) std::cout << "| NO FUEL !!!!! |"; }
+            else if (input == 'l') p.downMotorStrenght(5);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
     }
 }
 
@@ -136,27 +137,13 @@ void SimulationIndicateurs::inputArduinoHandler(Avion& p) {
 
         serialManager->SetReturnData(p.getSpeed(), p.getAltitude(), true);
         serialManager->DoNetworkTick();
-        p.setSpeed((serialManager->GetPotentiometer() / 1023.0) * 200.0);
+        p.SetMotorStrenght(serialManager->GetPotentiometer());
 
         JoystickInformation joyInfo = serialManager->GetJoystick();
+        Vector2D vector = {joyInfo.curlX, joyInfo.curlY};
 
-        if (joyInfo.curlY > 512) {
-            float curl = ((joyInfo.curlY - 512) / 512.0) * 2;
-            if (curl > 0.1) p.upPitch(curl);
-        }
-        else if (joyInfo.curlY < 512) {
-            float curl = (joyInfo.curlY / 512.0) * 2;
-            if (curl > 0.1) p.downPitch(curl);
-        }
-
-        if (joyInfo.curlX > 512) {
-            float curl = ((joyInfo.curlX - 512) / 512.0) * 3;
-            if (curl > 0.1) p.rollRight(3);
-        }
-        else if (joyInfo.curlX < 512) {
-            float curl = (joyInfo.curlX / 512.0) * 3;
-            if (curl > 0.1) p.rollLeft(curl);
-        }
+        p.SetPlayerJoystickInput(vector);
+       
 
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
