@@ -143,6 +143,8 @@ void SimulationCockpit::terminerVol(bool estMort, const QString& typeVol) {
     SimulationIndicateurs::light3 = false;
     SimulationIndicateurs::light4 = false;
 
+    SimulationIndicateurs::simulationEnCours = false;
+
     if (!m_piloteActif) return;
 
     DonneesVol vol;
@@ -160,23 +162,46 @@ void SimulationCockpit::messagesWarning() {
     Avion& p = sim.getAvion();
     QString warningText;
 
+    bool noWarning = true;
+
     if (p.getAltitude() <= 1000) {
         std::cout << "| ALTITUDE CRITICALLY LOW | -> Should be over 1000\n";
         warningText += "| ALTITUDE CRITICALLY LOW |\n";
-        SimulationIndicateurs::light4 = true;
+        SimulationIndicateurs::light3 = true;
+        noWarning = false;
         m_typesWarnings.insert("ALTITUDE CRITICALLY LOW");
     }
-    if (p.getSpeed() <= 10) {
+    else {
+        SimulationIndicateurs::light3 = false;
+    }
+
+    if (p.getSpeed() <= 50) {
         std::cout << "| SPEED CRITICALLY LOW | -> Should be over 10\n";
         warningText += "| SPEED CRITICALLY LOW |\n";
-        SimulationIndicateurs::light2 = true;
+        SimulationIndicateurs::light4 = true;
+        noWarning = false;
         m_typesWarnings.insert("SPEED CRITICALLY LOW");
     }
-    if (p.getFuel() <= 50) {
+    else {
+        SimulationIndicateurs::light4 = false;
+    }
+
+    if (p.getFuel() <= 500) {
         std::cout << "| FUEL CRITICALLY LOW | -> Should be over 50\n";
         warningText += "| FUEL CRITICALLY LOW |\n";
-        SimulationIndicateurs::light3 = true;
+        SimulationIndicateurs::light2 = true;
+        noWarning = false;
         m_typesWarnings.insert("FUEL CRITICALLY LOW");
+    }
+    else {
+        SimulationIndicateurs::light2 = false;
+    }
+
+    if (noWarning) {
+        SimulationIndicateurs::light1 = true;
+    }
+    else {
+        SimulationIndicateurs::light1 = false;
     }
 
     ecranText->setText(warningText);
@@ -196,7 +221,9 @@ void SimulationCockpit::demarrer() {
     m_altitudeMax = 0.0;
     m_speedMax = 0.0;
 
-    sim.creerAvion(40.0, 3000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1000.0);
+    SimulationIndicateurs::simulationEnCours = true;
+
+    sim.creerAvion(40.0, 3000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 700.0);
     sim.setIndicateurs(listeIndicateurs, SimulationIndicateurs::NB_INSTRUMENTS);
 
     Avion& p = sim.getAvion();

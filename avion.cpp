@@ -55,6 +55,8 @@ Avion::Avion()
 	pitch = 0.0;  // level flight
 	yaw = 0.0;    // not really used yet
 	roll = 0.0;   // wings level
+	yawChangeSpeed = 0;
+	targetPitch = 0.0;
 
 	// --- Direction (IMPORTANT) ---
 	u_direction.movementX = 1.0; // facing forward (X axis)
@@ -85,9 +87,11 @@ Avion::Avion(double speed, double altitude, double positionX, double positionY, 
 	this->positionZ = altitude;
 
 	// --- Orientation ---
-	this->pitch = pitch;
-	this->yaw = yaw;
-	this->roll = roll;
+	this->pitch = 0;
+	this->yaw = 0;
+	this->roll = 0;
+	this->yawChangeSpeed = 0;
+	targetPitch = 0.0;
 
 	// --- Direction (IMPORTANT) ---
 	u_direction.movementX = 1.0; // facing forward (X axis)

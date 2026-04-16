@@ -56,6 +56,8 @@ public:
     inline static bool light3 = false;
     inline static bool light4 = false;
 
+    inline static bool simulationEnCours = false;
+
     void updateLight(int lightNumber, bool state);
 
 private:

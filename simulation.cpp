@@ -127,6 +127,8 @@ void Simulation::setPiloteActif(Pilote* p) {
 }
 
 void Simulation::terminerVol(bool estMort, const QString& typeVol) {
+    SimulationIndicateurs::simulationEnCours = false;
+
     if (!m_piloteActif) return;
 
     DonneesVol vol;
@@ -178,7 +180,9 @@ void Simulation::demarrer() {
     double initialPitch = 0.0;
     double initialYaw = 0.0;
     double initialRoll = 0.0;
-    double inititalFuel = 1000;
+    double inititalFuel = 10000;
+
+    SimulationIndicateurs::simulationEnCours = true;
 
     sim.creerAvion(initialSpeed, initialAlt, startX, startY, initialPitch, initialYaw, initialRoll, inititalFuel);
     sim.setIndicateurs(listeIndicateurs, SimulationIndicateurs::NB_INSTRUMENTS);

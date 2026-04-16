@@ -160,16 +160,21 @@ void SimulationIndicateurs::inputArduinoHandler(Avion& p) {
             continue;
         }
 
-        serialManager->SetReturnData(p.getSpeed(), p.getAltitude(), true);
-        serialManager->DoNetworkTick();
-        p.SetMotorStrenght(serialManager->GetPotentiometer());
+        if(SimulationIndicateurs::simulationEnCours){
+            serialManager->SetReturnData(p.getSpeed(), p.getAltitude(), p.getFuel() < 500);
+            serialManager->DoNetworkTick();
+            p.SetMotorStrenght(serialManager->GetPotentiometer());
 
-        JoystickInformation joyInfo = serialManager->GetJoystick();
-        Vector2D vector = {joyInfo.curlX, joyInfo.curlY};
+            JoystickInformation joyInfo = serialManager->GetJoystick();
+            Vector2D vector = {joyInfo.curlX, joyInfo.curlY};
 
-        p.SetPlayerJoystickInput(vector);
+            p.SetPlayerJoystickInput(vector);
        
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+        else {
+            serialManager->SetReturnData(0, 0, false);
+        }
     }
 }
