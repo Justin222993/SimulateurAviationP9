@@ -150,6 +150,14 @@ void SimulationIndicateurs::handleHorizon() {
     setAngleInstrument(SimulationIndicateurs::Horizon, 1, -horizonAngle);
     
 }
+void SimulationIndicateurs::handleVirage() {
+    double roll = p.getRoll();
+    double movement = roll * 50 / 90;
+	setPosition(Virage, 1, -movement, -105);
+
+}
+
+
 void SimulationIndicateurs::inputListener(Avion& p) {
     while (true) {
         if (_kbhit()) {

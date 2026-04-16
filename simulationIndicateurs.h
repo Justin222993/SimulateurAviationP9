@@ -44,6 +44,7 @@ public:
 	void handleAltimetre();
 	void handleVariometre();
     void handleHorizon();
+	void handleVirage();
 
     void setAngleInstrument(int indexInstrument, int indexIndicateur, double angle);
     void setPosition(int indexInstrument, int indexIndicateur, double positionX, double positionY);
