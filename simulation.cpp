@@ -104,8 +104,8 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent)
         sim.handleAnemometre();
         sim.handleTachymetre();
         sim.handleBoussole();
+        sim.handleCap();
 
-        sim.setAngleInstrument(SimulationIndicateurs::Cap, 0, -p.getYaw());
         sim.setAngleInstrument(SimulationIndicateurs::Virage, 0, p.getRoll());
 
         double horizonAngle = QRandomGenerator::global()->bounded(-50, 51);

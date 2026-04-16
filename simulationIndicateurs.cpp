@@ -112,6 +112,47 @@ void SimulationIndicateurs::handleBoussole() {
     setPosition(Boussole, 0, offsetX, 0);
 }
 
+void SimulationIndicateurs::handleCap() {
+
+    static int previousEncoder = 0;
+
+    int encoder = -serialManager->GetEncoder();
+
+    int encoderDelta = encoder - previousEncoder;
+    previousEncoder = encoder;
+
+    static float previousYaw = p.getYaw();
+    static float continuousYaw = p.getYaw();
+
+    static float drift = 0.0f;
+
+    static int driftDirection = (rand() % 2 == 0) ? 1 : -1;
+
+    float currentYaw = p.getYaw();
+    float delta = currentYaw - previousYaw;
+
+    // unwrap (Valeur de yaw son entre 0 et 360, mais on veut garder over, genre 361 degres... 724 degrés etc)
+    if (delta > 180.0f)
+        delta -= 360.0f;
+    else if (delta < -180.0f)
+        delta += 360.0f;
+
+    continuousYaw += delta;
+    previousYaw = currentYaw;
+
+    drift += driftDirection * 0.01f;
+
+    // encoder = correction one-shot
+    float encoderGain = 3.0f; // +3 degrés par tick
+    continuousYaw += encoderDelta * encoderGain;
+
+    setAngleInstrument(
+        SimulationIndicateurs::Cap,
+        0,
+        -(continuousYaw + drift)
+    );
+}
+
 void SimulationIndicateurs::inputListener(Avion& p) {
     while (true) {
         if (_kbhit()) {
