@@ -223,7 +223,7 @@ void SimulationCockpit::demarrer() {
 
     SimulationIndicateurs::simulationEnCours = true;
 
-    sim.creerAvion(40.0, 3000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 700.0);
+    sim.creerAvion(40.0, 3000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10000.0);
     sim.setIndicateurs(listeIndicateurs, SimulationIndicateurs::NB_INSTRUMENTS);
 
     Avion& p = sim.getAvion();
