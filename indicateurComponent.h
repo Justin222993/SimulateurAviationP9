@@ -19,6 +19,9 @@ class IndicateurComponent : public QWidget {
         void setAngleCible(double a);
         void mettreAJourAnimation();
         void setPosition(double pixelsX, double pixelsY);
+        void setEstRuban(bool val) { estRuban = val; }
+        void setInstantane(bool val) { instantane = val; }
+        double getAngleActuel() const { return angleActuel; }
 
     protected:
         void paintEvent(QPaintEvent*) override;
@@ -32,6 +35,8 @@ class IndicateurComponent : public QWidget {
         double xActuel, xCible;
         double yActuel, yCible;
         double vitesseLerp;
+        bool estRuban = false;
+        bool instantane = false;
 };
 
 #endif
