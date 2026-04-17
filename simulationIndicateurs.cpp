@@ -150,6 +150,47 @@ void SimulationIndicateurs::handleHorizon() {
     setAngleInstrument(SimulationIndicateurs::Horizon, 1, -horizonAngle);
     
 }
+void SimulationIndicateurs::handleCap() {
+
+    static int previousEncoder = 0;
+
+    int encoder = -serialManager->GetEncoder();
+
+    int encoderDelta = encoder - previousEncoder;
+    previousEncoder = encoder;
+
+    static float previousYaw = p.getYaw();
+    static float continuousYaw = p.getYaw();
+
+    static float drift = 0.0f;
+
+    static int driftDirection = (rand() % 2 == 0) ? 1 : -1;
+
+    float currentYaw = p.getYaw();
+    float delta = currentYaw - previousYaw;
+
+    // unwrap (Valeur de yaw son entre 0 et 360, mais on veut garder over, genre 361 degres... 724 degrés etc)
+    if (delta > 180.0f)
+        delta -= 360.0f;
+    else if (delta < -180.0f)
+        delta += 360.0f;
+
+    continuousYaw += delta;
+    previousYaw = currentYaw;
+
+    drift += driftDirection * 0.01f;
+
+    // encoder = correction one-shot
+    float encoderGain = 3.0f; // +3 degrés par tick
+    continuousYaw += encoderDelta * encoderGain;
+
+    setAngleInstrument(
+        SimulationIndicateurs::Cap,
+        0,
+        -(continuousYaw + drift)
+    );
+}
+
 void SimulationIndicateurs::handleVirage() {
     double roll = p.getRoll();
     double movement = roll * 50 / 90;
@@ -206,16 +247,21 @@ void SimulationIndicateurs::inputArduinoHandler(Avion& p) {
             continue;
         }
 
-        serialManager->SetReturnData(p.getSpeed(), p.getAltitude(), true);
-        serialManager->DoNetworkTick();
-        p.SetMotorStrenght(serialManager->GetPotentiometer());
+        if(SimulationIndicateurs::simulationEnCours){
+            serialManager->SetReturnData(p.getSpeed(), p.getAltitude(), p.getFuel() < 500);
+            serialManager->DoNetworkTick();
+            p.SetMotorStrenght(serialManager->GetPotentiometer());
 
-        JoystickInformation joyInfo = serialManager->GetJoystick();
-        Vector2D vector = {joyInfo.curlX, joyInfo.curlY};
+            JoystickInformation joyInfo = serialManager->GetJoystick();
+            Vector2D vector = {joyInfo.curlX, joyInfo.curlY};
 
-        p.SetPlayerJoystickInput(vector);
+            p.SetPlayerJoystickInput(vector);
        
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+        else {
+            serialManager->SetReturnData(0, 0, false);
+        }
     }
 }

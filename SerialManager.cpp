@@ -9,7 +9,7 @@ SerialManager::SerialManager() :
 	cur_accel_bump(false)
 {
 
-	returnData = { 0,0,true };
+	returnData = { 0,0,false };
 	NetworkInit();
 
 }
@@ -77,7 +77,7 @@ void SerialManager::SetReturnData(int vitesse, int altitude, bool redLed)
 {
 	returnData.vitesse = vitesse;
 	returnData.altitude = altitude;
-	redLedPreviousState = redLed;
+	returnData.redLed = redLed;
 }
 ReturnData SerialManager::GetReturnData()
 {
