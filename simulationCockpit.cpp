@@ -121,7 +121,6 @@ SimulationCockpit::SimulationCockpit(QWidget* parent) : QWidget(parent)
         sim.handleVariometre();
         sim.handleHorizon();
 		sim.handleVirage();
-        sim.setAngleInstrument(SimulationIndicateurs::Cap, 0, -p.getYaw());
         sim.setAngleInstrument(SimulationIndicateurs::Virage, 0, p.getRoll());
 
         /*
