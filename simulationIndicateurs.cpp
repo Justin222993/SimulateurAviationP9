@@ -74,7 +74,7 @@ void SimulationIndicateurs::handleTachymetre() {
     if (speed < 0)   speed = 0;
     if (speed > 200) speed = 200;
 
-    double rpm = (speed / 200.0) * 3500.0;
+    double rpm = p.getUnitMotorStrenght() * 3500.0;
 
     std::vector<PointValeur> pointsReference = {
         {0.0,    -225.0}, {500.0,  -186.4}, {1000.0, -147.9},
@@ -118,6 +118,93 @@ void SimulationIndicateurs::handleBoussole() {
     setPosition(Boussole, 1, offsetX, 0);
 }
 
+void SimulationIndicateurs::handleAltimetre() {
+    double altitude = p.getAltitude();
+    if (altitude < 0) altitude = 0;
+    if (altitude > 10000) altitude = 10000;
+    double finalAngle = (altitude / 10000.0) * 360.0;
+    setAngleInstrument(Altimetre, 1, finalAngle);
+	setAngleInstrument(Altimetre, 0, finalAngle * 10.0);
+}
+
+void SimulationIndicateurs::handleVariometre() {
+    double verticalSpeed = p.getVerticalSpeed()/2.5;
+    if (verticalSpeed < -20) verticalSpeed = -20;
+    if (verticalSpeed > 20) verticalSpeed = 20;
+    double finalAngle = (verticalSpeed / 20.0) * 180.0;
+    finalAngle += 270;
+    setAngleInstrument(Variometre, 0, finalAngle);
+}
+void SimulationIndicateurs::handleHorizon() {
+    //200
+
+    /*
+    double horizonAngle = QRandomGenerator::global()->bounded(-50, 51);
+        sim.setAngleInstrument(SimulationIndicateurs::Horizon, 0, horizonAngle);
+        sim.setPosition(SimulationIndicateurs::Horizon, 0,
+            QRandomGenerator::global()->bounded(-50, 51),
+            QRandomGenerator::global()->bounded(-50, 51));
+        sim.setAngleInstrument(SimulationIndicateurs::Horizon, 1, horizonAngle);
+    
+    */
+	double horizonAngle = p.getRoll();
+    double pitch = p.getPitch();
+    double movement = pitch * 600 / 90;
+
+    setPosition(Horizon, 0, 0, -movement);
+    setAngleInstrument(SimulationIndicateurs::Horizon, 0, -horizonAngle);
+    setAngleInstrument(SimulationIndicateurs::Horizon, 1, -horizonAngle);
+    
+}
+void SimulationIndicateurs::handleCap() {
+
+    static int previousEncoder = 0;
+
+    int encoder = -serialManager->GetEncoder();
+
+    int encoderDelta = encoder - previousEncoder;
+    previousEncoder = encoder;
+
+    static float previousYaw = p.getYaw();
+    static float continuousYaw = p.getYaw();
+
+    static float drift = 0.0f;
+
+    static int driftDirection = (rand() % 2 == 0) ? 1 : -1;
+
+    float currentYaw = p.getYaw();
+    float delta = currentYaw - previousYaw;
+
+    // unwrap (Valeur de yaw son entre 0 et 360, mais on veut garder over, genre 361 degres... 724 degrés etc)
+    if (delta > 180.0f)
+        delta -= 360.0f;
+    else if (delta < -180.0f)
+        delta += 360.0f;
+
+    continuousYaw += delta;
+    previousYaw = currentYaw;
+
+    drift += driftDirection * 0.01f;
+
+    // encoder = correction one-shot
+    float encoderGain = 3.0f; // +3 degrés par tick
+    continuousYaw += encoderDelta * encoderGain;
+
+    setAngleInstrument(
+        SimulationIndicateurs::Cap,
+        0,
+        -(continuousYaw + drift)
+    );
+}
+
+void SimulationIndicateurs::handleVirage() {
+    double roll = p.getRoll();
+    double movement = roll * 50 / 90;
+	setPosition(Virage, 1, -movement, -105);
+
+}
+
+
 void SimulationIndicateurs::inputListener(Avion& p) {
     while (true) {
         if (_kbhit()) {
@@ -126,12 +213,38 @@ void SimulationIndicateurs::inputListener(Avion& p) {
             else if (input == 's') p.downPitch(2);
             else if (input == 'a') p.rollLeft(3);
             else if (input == 'd') p.rollRight(3);
-            else if (input == 'p') { if (!p.upSpeed(5)) std::cout << "| NO FUEL !!!!! |"; }
-            else if (input == 'l') p.downSpeed(5);
+            else if (input == 'p') { if (!p.upMotorStrenght(5)) std::cout << "| NO FUEL !!!!! |"; }
+            else if (input == 'l') p.downMotorStrenght(5);
+            else if (input == '1') updateLight(1, 1);
+            else if (input == '2') updateLight(2, 1);
+            else if (input == '3') updateLight(3, 1);
+            else if (input == '4') updateLight(4, 1);
+            else if (input == '5') updateLight(1, 0);
+            else if (input == '6') updateLight(2, 0);
+            else if (input == '7') updateLight(3, 0);
+            else if (input == '8') updateLight(4, 0);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
     }
 }
+
+void SimulationIndicateurs::updateLight(int lightNumber, bool state) {
+
+    if (lightNumber == 1) {
+        SimulationIndicateurs::light1 = state;
+    }
+    else if(lightNumber == 2) {
+        SimulationIndicateurs::light2 = state;
+    }
+    else if (lightNumber == 3) {
+        SimulationIndicateurs::light3 = state;
+    }
+    else if (lightNumber == 4) {
+        SimulationIndicateurs::light4 = state;
+    }
+}
+
 
 void SimulationIndicateurs::inputArduinoHandler(Avion& p) {
     while (true) {
@@ -140,30 +253,21 @@ void SimulationIndicateurs::inputArduinoHandler(Avion& p) {
             continue;
         }
 
-        serialManager->SetReturnData(p.getSpeed(), p.getAltitude(), true);
-        serialManager->DoNetworkTick();
-        p.setSpeed((serialManager->GetPotentiometer() / 1023.0) * 200.0);
+        if(SimulationIndicateurs::simulationEnCours){
+            serialManager->SetReturnData(p.getSpeed(), p.getAltitude(), p.getFuel() < 500);
+            serialManager->DoNetworkTick();
+            p.SetMotorStrenght(serialManager->GetPotentiometer());
 
-        JoystickInformation joyInfo = serialManager->GetJoystick();
+            JoystickInformation joyInfo = serialManager->GetJoystick();
+            Vector2D vector = {joyInfo.curlX, joyInfo.curlY};
 
-        if (joyInfo.curlY > 512) {
-            float curl = ((joyInfo.curlY - 512) / 512.0) * 2;
-            if (curl > 0.1) p.upPitch(curl);
-        }
-        else if (joyInfo.curlY < 512) {
-            float curl = (joyInfo.curlY / 512.0) * 2;
-            if (curl > 0.1) p.downPitch(curl);
-        }
+            p.SetPlayerJoystickInput(vector);
+       
 
-        if (joyInfo.curlX > 512) {
-            float curl = ((joyInfo.curlX - 512) / 512.0) * 3;
-            if (curl > 0.1) p.rollRight(3);
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
-        else if (joyInfo.curlX < 512) {
-            float curl = (joyInfo.curlX / 512.0) * 3;
-            if (curl > 0.1) p.rollLeft(curl);
+        else {
+            serialManager->SetReturnData(0, 0, false);
         }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }

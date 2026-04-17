@@ -41,6 +41,11 @@ public:
     void handleAnemometre();
     void handleTachymetre();
     void handleBoussole();
+    void handleCap();
+	void handleAltimetre();
+	void handleVariometre();
+    void handleHorizon();
+	void handleVirage();
 
     void setAngleInstrument(int indexInstrument, int indexIndicateur, double angle);
     void setPosition(int indexInstrument, int indexIndicateur, double positionX, double positionY);
@@ -50,6 +55,15 @@ public:
 
     Avion& getAvion() { return p; }
     SerialManager* getSerialManager() { return serialManager; }
+
+    inline static bool light1 = false;
+    inline static bool light2 = false;
+    inline static bool light3 = false;
+    inline static bool light4 = false;
+
+    inline static bool simulationEnCours = false;
+
+    void updateLight(int lightNumber, bool state);
 
 private:
     Avion p;

@@ -77,6 +77,19 @@ SimulationCockpit::SimulationCockpit(QWidget* parent) : QWidget(parent)
         if (p.getAltitude() > m_altitudeMax) m_altitudeMax = p.getAltitude();
         if (p.getSpeed() > m_speedMax) m_speedMax = p.getSpeed();
 
+        if (view3d && view3d->rootObject()) {
+            QVariantMap data;
+            data["light1"] = SimulationIndicateurs::light1;
+            data["light2"] = SimulationIndicateurs::light2;
+            data["light3"] = SimulationIndicateurs::light3;
+            data["light4"] = SimulationIndicateurs::light4;
+
+            QMetaObject::invokeMethod(static_cast<QObject*>(view3d->rootObject()),
+                "updateLights",
+                Qt::AutoConnection,
+                Q_ARG(QVariant, QVariant::fromValue(data)));
+        }
+
         std::cout << "\033[H\033[J";
         std::cout << std::fixed << std::setprecision(2) << std::left
             << "Speed: " << std::setw(8) << p.getSpeed()
@@ -103,16 +116,22 @@ SimulationCockpit::SimulationCockpit(QWidget* parent) : QWidget(parent)
         sim.handleAnemometre();
         sim.handleTachymetre();
         sim.handleBoussole();
-
-        sim.setAngleInstrument(SimulationIndicateurs::Cap, 0, -p.getYaw());
+        sim.handleCap();
+        sim.handleAltimetre();
+        sim.handleVariometre();
+        sim.handleHorizon();
+		sim.handleVirage();
         sim.setAngleInstrument(SimulationIndicateurs::Virage, 0, p.getRoll());
 
-        double horizonAngle = QRandomGenerator::global()->bounded(-50, 51);
+        /*
+    double horizonAngle = QRandomGenerator::global()->bounded(-50, 51);
         sim.setAngleInstrument(SimulationIndicateurs::Horizon, 0, horizonAngle);
         sim.setPosition(SimulationIndicateurs::Horizon, 0,
             QRandomGenerator::global()->bounded(-50, 51),
             QRandomGenerator::global()->bounded(-50, 51));
         sim.setAngleInstrument(SimulationIndicateurs::Horizon, 1, horizonAngle);
+
+    */
         });
 }
 
@@ -124,6 +143,14 @@ void SimulationCockpit::setPiloteActif(Pilote* p) {
 }
 
 void SimulationCockpit::terminerVol(bool estMort, const QString& typeVol) {
+
+    SimulationIndicateurs::light1 = false;
+    SimulationIndicateurs::light2 = false;
+    SimulationIndicateurs::light3 = false;
+    SimulationIndicateurs::light4 = false;
+
+    SimulationIndicateurs::simulationEnCours = false;
+
     if (!m_piloteActif) return;
 
     DonneesVol vol;
@@ -141,20 +168,46 @@ void SimulationCockpit::messagesWarning() {
     Avion& p = sim.getAvion();
     QString warningText;
 
+    bool noWarning = true;
+
     if (p.getAltitude() <= 1000) {
         std::cout << "| ALTITUDE CRITICALLY LOW | -> Should be over 1000\n";
         warningText += "| ALTITUDE CRITICALLY LOW |\n";
+        SimulationIndicateurs::light3 = true;
+        noWarning = false;
         m_typesWarnings.insert("ALTITUDE CRITICALLY LOW");
     }
-    if (p.getSpeed() <= 10) {
+    else {
+        SimulationIndicateurs::light3 = false;
+    }
+
+    if (p.getSpeed() <= 50) {
         std::cout << "| SPEED CRITICALLY LOW | -> Should be over 10\n";
         warningText += "| SPEED CRITICALLY LOW |\n";
+        SimulationIndicateurs::light4 = true;
+        noWarning = false;
         m_typesWarnings.insert("SPEED CRITICALLY LOW");
     }
-    if (p.getFuel() <= 50) {
+    else {
+        SimulationIndicateurs::light4 = false;
+    }
+
+    if (p.getFuel() <= 500) {
         std::cout << "| FUEL CRITICALLY LOW | -> Should be over 50\n";
         warningText += "| FUEL CRITICALLY LOW |\n";
+        SimulationIndicateurs::light2 = true;
+        noWarning = false;
         m_typesWarnings.insert("FUEL CRITICALLY LOW");
+    }
+    else {
+        SimulationIndicateurs::light2 = false;
+    }
+
+    if (noWarning) {
+        SimulationIndicateurs::light1 = true;
+    }
+    else {
+        SimulationIndicateurs::light1 = false;
     }
 
     ecranText->setText(warningText);
@@ -174,7 +227,9 @@ void SimulationCockpit::demarrer() {
     m_altitudeMax = 0.0;
     m_speedMax = 0.0;
 
-    sim.creerAvion(40.0, 3000.0, 0.0, 0.0, 0.0, 30.0, 0.0, 1000.0);
+    SimulationIndicateurs::simulationEnCours = true;
+
+    sim.creerAvion(40.0, 3000.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10000.0);
     sim.setIndicateurs(listeIndicateurs, SimulationIndicateurs::NB_INSTRUMENTS);
 
     Avion& p = sim.getAvion();
@@ -184,7 +239,7 @@ void SimulationCockpit::demarrer() {
     t2.detach();
 
     timerAnimation->start(16);
-    timerDonnees->start(25);
+    timerDonnees->start(4);
 }
 
 void SimulationCockpit::resizeEvent(QResizeEvent* event) {

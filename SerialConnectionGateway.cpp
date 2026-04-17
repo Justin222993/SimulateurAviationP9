@@ -103,10 +103,10 @@ void NetworkTick() {
         if (!isConnected)
             return;
     }
-
+    SerialManager& serialManager = SerialManager::GetInstance();
     auto temps_actuel = std::chrono::steady_clock::now();
 
-	SerialManager& serialManager = SerialManager::GetInstance();
+
     // 1. LED blink (every 2 sec)
     if (temps_actuel - temps_precedent_led >= std::chrono::milliseconds(2000)) {
         etat_led_rouge = !etat_led_rouge;
@@ -131,6 +131,7 @@ void NetworkTick() {
 			serialManager.SetMasterSwitch(j_msg_rcv.value("MasterSwitch", 0) == 1);
             serialManager.SetEncoder(j_msg_rcv.value("encoder", 0));
 			serialManager.SetAccelBump(j_msg_rcv.value("accel_bump", 0) == 1);
+            serialManager.SetMuons(j_msg_rcv.value("nb_muons", 0));
 
 
 
@@ -142,6 +143,7 @@ void NetworkTick() {
         pos_fin = trame_accumulee.find('\n');
     }
 	ReturnData returnData = serialManager.GetReturnData();
+	std::cout << "Vitesse: " << returnData.vitesse << " km/h, Altitude: " << returnData.altitude << " pieds, LED Rouge: " << (returnData.redLed ? "ON" : "OFF") << std::endl;
     // 3. Send data
     j_msg_send["vitesse"] = returnData.vitesse;
     j_msg_send["altitude"] = returnData.altitude;

@@ -51,6 +51,8 @@ class SerialManager
 		void SetReturnData(int vitesse, int altitude, bool redLed);
 		ReturnData GetReturnData();
 
+		void SetMuons(long muons);
+		long GetMuons();
 
 		bool ArduinoIsConnected();
 	private:
@@ -63,7 +65,7 @@ class SerialManager
 		//Return data
 		ReturnData returnData;
 		bool redLedPreviousState;
-
+		long muons;
 
 };
 

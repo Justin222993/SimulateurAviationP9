@@ -95,6 +95,7 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent)
             << "Master Switch: " << std::setw(7) << (sim.getSerialManager()->GetMasterSwitch() ? "ON" : "OFF")
             << "Encoder: " << std::setw(7) << sim.getSerialManager()->GetEncoder()
             << "Accel Bump: " << std::setw(7) << (sim.getSerialManager()->GetAccelBump() ? "YES" : "NO")
+            << "Muons: " << std::setw(7) << sim.getSerialManager()->GetMuons()
             << "\n";
 
         messagesWarning();
@@ -103,16 +104,23 @@ Simulation::Simulation(QWidget* parent) : QWidget(parent)
         sim.handleAnemometre();
         sim.handleTachymetre();
         sim.handleBoussole();
+        sim.handleCap();
+        sim.handleAltimetre();
+		sim.handleVariometre();
+        sim.handleHorizon();
+        sim.handleVirage(); 
 
-        sim.setAngleInstrument(SimulationIndicateurs::Cap, 0, -p.getYaw());
         sim.setAngleInstrument(SimulationIndicateurs::Virage, 0, p.getRoll());
 
-        double horizonAngle = QRandomGenerator::global()->bounded(-50, 51);
+        /*
+    double horizonAngle = QRandomGenerator::global()->bounded(-50, 51);
         sim.setAngleInstrument(SimulationIndicateurs::Horizon, 0, horizonAngle);
         sim.setPosition(SimulationIndicateurs::Horizon, 0,
             QRandomGenerator::global()->bounded(-50, 51),
             QRandomGenerator::global()->bounded(-50, 51));
         sim.setAngleInstrument(SimulationIndicateurs::Horizon, 1, horizonAngle);
+
+    */
         });
 }
 
@@ -124,6 +132,8 @@ void Simulation::setPiloteActif(Pilote* p) {
 }
 
 void Simulation::terminerVol(bool estMort, const QString& typeVol) {
+    SimulationIndicateurs::simulationEnCours = false;
+
     if (!m_piloteActif) return;
 
     DonneesVol vol;
@@ -173,9 +183,11 @@ void Simulation::demarrer() {
     double startX = 0.0;
     double startY = 0.0;
     double initialPitch = 0.0;
-    double initialYaw = 30.0;
+    double initialYaw = 0.0;
     double initialRoll = 0.0;
-    double inititalFuel = 1000;
+    double inititalFuel = 10000;
+
+    SimulationIndicateurs::simulationEnCours = true;
 
     sim.creerAvion(initialSpeed, initialAlt, startX, startY, initialPitch, initialYaw, initialRoll, inititalFuel);
     sim.setIndicateurs(listeIndicateurs, SimulationIndicateurs::NB_INSTRUMENTS);
