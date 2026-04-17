@@ -143,7 +143,7 @@ void NetworkTick() {
         pos_fin = trame_accumulee.find('\n');
     }
 	ReturnData returnData = serialManager.GetReturnData();
-	std::cout << "Vitesse: " << returnData.vitesse << " km/h, Altitude: " << returnData.altitude << " pieds, LED Rouge: " << (returnData.redLed ? "ON" : "OFF") << std::endl;
+	//std::cout << "Vitesse: " << returnData.vitesse << " km/h, Altitude: " << returnData.altitude << " pieds, LED Rouge: " << (returnData.redLed ? "ON" : "OFF") << std::endl;
     // 3. Send data
     j_msg_send["vitesse"] = returnData.vitesse;
     j_msg_send["altitude"] = returnData.altitude;
