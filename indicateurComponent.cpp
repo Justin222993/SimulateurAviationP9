@@ -20,22 +20,19 @@ IndicateurComponent::IndicateurComponent(QWidget* parent, const QString& cheminI
 void IndicateurComponent::setAngleCible(double a) { angleCible = a; }
 
 void IndicateurComponent::mettreAJourAnimation() {
-
-    // Animation de l'Angle
-    if (qAbs(angleCible - angleActuel) > 0.05) {
-        angleActuel += (angleCible - angleActuel) * vitesseLerp;
+    if (instantane) {
+        angleActuel = angleCible;
+        xActuel = xCible;
+        yActuel = yCible;
     }
-
-    // Animation de la Position X
-    if (qAbs(xCible - xActuel) > 0.1) {
-        xActuel += (xCible - xActuel) * vitesseLerp;
+    else {
+        if (qAbs(angleCible - angleActuel) > 0.05)
+            angleActuel += (angleCible - angleActuel) * vitesseLerp;
+        if (qAbs(xCible - xActuel) > 0.1)
+            xActuel += (xCible - xActuel) * vitesseLerp;
+        if (qAbs(yCible - yActuel) > 0.1)
+            yActuel += (yCible - yActuel) * vitesseLerp;
     }
-
-    // Animation de la Position Y
-    if (qAbs(yCible - yActuel) > 0.1) {
-        yActuel += (yCible - yActuel) * vitesseLerp;
-    }
-
     update();
 }
 
@@ -67,7 +64,7 @@ void IndicateurComponent::paintEvent(QPaintEvent*) {
         // Centre du rectangle
         int centreX = rectX + rectW / 2;
 
-        int offsetX = centreX - (int)xActuel - (rubanW / 2);
+        int offsetX = centreX + (int)xActuel - (rubanW / 2);
 
         painter.drawPixmap(offsetX, rectY, rubanW, rubanH, pixmap);
         painter.drawPixmap(offsetX + rubanW, rectY, rubanW, rubanH, pixmap);

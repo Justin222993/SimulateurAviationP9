@@ -258,8 +258,9 @@ void SimulationCockpit::setupIndicateurs() {
     listeIndicateurs[SimulationIndicateurs::Variometre].append(
         new IndicateurComponent(this, "ressources/simulateur/aiguille.png", 0.6f, 1.5f));
 
-    listeIndicateurs[SimulationIndicateurs::Cap].append(
-        new IndicateurComponent(this, "ressources/simulateur/valeurs-cap.png", 1.05f, 2.0f));
+    auto* cap = new IndicateurComponent(this, "ressources/simulateur/valeurs-cap.png", 1.05f, 2.0f);
+    cap->setInstantane(true);
+    listeIndicateurs[SimulationIndicateurs::Cap].append(cap);
 
     listeIndicateurs[SimulationIndicateurs::Virage].append(
         new IndicateurComponent(this, "ressources/simulateur/coordonateur-de-virage-aiguille.png", 1.0f, 2.0f));
@@ -278,6 +279,7 @@ void SimulationCockpit::setupIndicateurs() {
 
     auto* ruban = new IndicateurComponent(this, "ressources/simulateur/ruban-points-cardinaux.png", 1.0f, 2.0f, 0, 0);
     ruban->setEstRuban(true);
+    ruban->setInstantane(true);
     listeIndicateurs[SimulationIndicateurs::Boussole].append(
         new IndicateurComponent(this, "ressources/simulateur/boussole2.png", 1.0f, 2.0f, 0, 0));
     listeIndicateurs[SimulationIndicateurs::Boussole].append(ruban);

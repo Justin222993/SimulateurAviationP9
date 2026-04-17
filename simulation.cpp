@@ -264,6 +264,7 @@ void Simulation::setupIndicateurs() {
 
     auto* ruban = new IndicateurComponent(this, "ressources/simulateur/ruban-points-cardinaux.png", 1.0f, 2.0f, 0, 0);
     ruban->setEstRuban(true);
+    //ruban->setInstantane(true);
     listeIndicateurs[SimulationIndicateurs::Boussole].append(
         new IndicateurComponent(this, "ressources/simulateur/boussole2.png", 1.0f, 2.0f, 0, 0));
     listeIndicateurs[SimulationIndicateurs::Boussole].append(ruban);

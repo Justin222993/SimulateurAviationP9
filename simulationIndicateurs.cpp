@@ -1,4 +1,4 @@
-#include "simulationIndicateurs.h"
+﻿#include "simulationIndicateurs.h"
 #include <conio.h>
 #include <thread>
 #include <chrono>
@@ -9,7 +9,7 @@
 #include <QRandomGenerator>
 
 // Fonctions qui on rapport a l'indicateur on ete mis dans un component pour etre utiliser par plusieurs simulations
-// J'ai aussi mis les contr�les de l'avion ici
+// J'ai aussi mis les contrôles de l'avion ici
 
 SimulationIndicateurs::SimulationIndicateurs() {}
 
@@ -108,9 +108,12 @@ void SimulationIndicateurs::handleBoussole() {
     while (cap >= 360.0) cap -= 360.0;
     while (cap < 0.0)    cap += 360.0;
 
-   
-    double pixelsParDegre = 1820.0 / 720.0; 
-    double offsetX = cap * pixelsParDegre;
+    double pixelsParDegre = 1820.0 / 720.0 * 0.35;
+
+    // N est à 270° dans l'image → décalage = 270 * pixelsParDegre
+    double offsetCalibration = 500.0 * pixelsParDegre;
+
+    double offsetX = -cap * pixelsParDegre ;
 
     setPosition(Boussole, 1, offsetX, 0);
 }
