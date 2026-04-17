@@ -39,6 +39,9 @@
 #ifndef ConsumptionMaxMotorSecond
 #define ConsumptionMaxMotorSecond 10.0
 #endif // !ConsumptionMaxMotorSecond
+#ifndef DriftModifier
+#define DriftModifier 0.25
+#endif // !DriftModifier
 
 float timeRoll = 0;
 float rollforce = 0;
@@ -248,7 +251,7 @@ void Avion::calculateNewPosition()
 	double factMultVert = cos(pitchRad);
 
 	double targetSpeed =
-		NormalPlaneSpeedStraight * factMultVert * unitMotorStrenght * abs(cos(roll));
+		NormalPlaneSpeedStraight * factMultVert * unitMotorStrenght * (1.0 - 0.5 * (1.0 - std::abs(cos(rollRad))));
 
 	currentSpeed += (targetSpeed - currentSpeed) * dt;
 
@@ -270,11 +273,36 @@ void Avion::calculateNewPosition()
 
 	double accelerationZ = lift - gravity ;
 	verticalSpeed += accelerationZ * dt ;
+	
 	verticalSpeed = Clamp(-50.0, 0.0, verticalSpeed);
-
 	positionZ += verticalSpeed * dt;
+	if (accelerationZ > 0) {
+		verticalMovement = Lerp(verticalMovement, 0, dt/10);
+	}
+
+	
+	
+
+	
 	
 	positionZ += cos(yaw)*sin(pitchRad) * currentSpeed * airDensityFactor * dt;
 	//divide 60 cause 1 minute
 	verticalMovement = (verticalSpeed + cos(yaw) * sin(pitchRad) * currentSpeed * airDensityFactor);
+
+	//Drift time!
+	double alpha = 0.1; // smoothing factor
+
+	avMuon = avMuon + alpha * (muon - avMuon);
+
+	double safeAvMuon = avMuon;
+
+	if (safeAvMuon < 0.0001)
+		safeAvMuon = 0.0001;
+
+	double vertAngle = muon * 360.0 / safeAvMuon;
+
+	double vertDrift = cos(vertAngle);
+	double horzDrift = sin(vertAngle);
+	roll += horzDrift * dt * DriftModifier;
+	pitch += vertDrift * dt * DriftModifier;
 }
