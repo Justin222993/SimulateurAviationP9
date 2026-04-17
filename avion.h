@@ -105,6 +105,7 @@ class Avion {
 		double getFuel(){ return fuel; }
 		double getUnitMotorStrenght() { return unitMotorStrenght; }
 		double getVerticalSpeed() { return verticalMovement; }
+		void setMuonsAvion(long muons) { this->muon = muons; }
 
 	private:
 		float motorStrenght = 100;
@@ -130,6 +131,8 @@ class Avion {
 		
 		double verticalMovement;
 
+		long muon = 10;
+		long avMuon = 10;
 };
 
 #endif
